@@ -4,7 +4,41 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout title="Emergency" description="Emergency contacts, fire danger levels and preparedness for Thetis Island.">
   <section class="mx-auto max-w-4xl px-4 py-12">
-    <h1 class="text-3xl font-bold text-primary mb-6">Emergency</h1>
-    <p class="text-text-muted">Content coming soon. This page will include the live fire hazard rating, 911 guidance, fire safety information, and emergency preparedness resources.</p>
+    <h1 class="text-3xl font-bold text-primary mb-4">Emergency Information</h1>
+    <p class="text-text-muted mb-10">What to do and where to find help when you need it.</p>
+
+    <!-- Fire hazard rating — placeholder for Stage 5 auto-scraper -->
+    <div class="bg-accent text-white p-6 rounded-lg mb-10">
+      <h2 class="text-xl font-semibold mb-2">Fire Danger Today</h2>
+      <p class="mb-3">Always check the official rating before burning or using outdoor flames.</p>
+      <a href="https://www.thetisislandfire.ca/burn-table.html" target="_blank" rel="noopener noreferrer" class="font-medium underline">See today's fire hazard rating on the TIVFD website &rarr;</a>
+    </div>
+
+    <div class="space-y-10">
+      <div>
+        <h2 class="text-xl font-semibold text-primary mb-3">Call 911</h2>
+        <p class="text-text mb-3">In any life-threatening emergency, dial <strong>911</strong> immediately. Dispatch will send the appropriate responders, including the Thetis Island Volunteer Fire Department and BC Ambulance Service.</p>
+        <p class="text-text">For medical advice, contact the BC Nurse Line at 8-1-1.</p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-primary mb-3">Fire Safety &amp; Burning</h2>
+        <p class="text-text mb-3">The Thetis Island Volunteer Fire Department (TIVFD) provides fire protection and first responder services. Visit <a href="https://thetisislandfire.ca" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">thetisislandfire.ca</a> for current information on burning permits, fire danger ratings and training opportunities.</p>
+        <p class="text-text mb-3">Always check the fire hazard rating before lighting any fire. When bans are in effect, no open burning or campfires are permitted. Permits are required for all open burning outside of designated campfire times.</p>
+        <p class="text-text">Keep firefighting equipment (water hose, shovel) available when burning and never leave a fire unattended.</p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-primary mb-3">Emergency Preparedness</h2>
+        <p class="text-text mb-3">Thetis Island's remoteness means residents should be prepared to be self-sufficient for at least 72 hours following a major incident such as a storm or earthquake.</p>
+        <ul class="list-disc list-inside space-y-1 text-text mb-3">
+          <li>Maintain an emergency kit with food, water, medications and essentials for each member of your household.</li>
+          <li>Know where to find emergency equipment (fire extinguishers, first aid kit) in your home and workplace.</li>
+          <li>Plan evacuation routes and establish a meeting place for your family.</li>
+          <li>Stay informed via e-Spokes and local radio for updates during an emergency.</li>
+        </ul>
+        <p class="text-text">Further resources, including a comprehensive emergency preparedness workbook, can be downloaded from the <a href="https://www.cvrd.ca" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Cowichan Valley Regional District website</a>.</p>
+      </div>
+    </div>
   </section>
 </BaseLayout>

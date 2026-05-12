@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Ferry Info" description="Ferry schedules, webcams and vessel tracking for Thetis Island.">
+  <section class="mx-auto max-w-4xl px-4 py-12">
+    <h1 class="text-3xl font-bold text-primary mb-4">Ferry Information</h1>
+    <p class="text-text-muted mb-10">Schedules, webcams and live vessel tracking for the Chemainus–Thetis–Penelakut route.</p>
+
+    <div class="space-y-10">
+      <div>
+        <h2 class="text-xl font-semibold text-primary mb-3">BC Ferries Schedule</h2>
+        <p class="text-text mb-3">BC Ferries Route 20 serves Chemainus–Thetis Island–Penelakut several times a day.</p>
+        <a href="https://www.bcferries.com/routes-fares/schedules/seasonal/THT-CHM" target="_blank" rel="noopener noreferrer" class="text-accent font-medium hover:underline">View the official BC Ferries schedule &rarr;</a>
+      </div>
+
+      <!-- Snake ferry schedule — placeholder for Stage 5 -->
+      <div>
+        <h2 class="text-xl font-semibold text-primary mb-3">Snake Schedule</h2>
+        <div class="bg-surface border-2 border-dashed border-primary/20 rounded-lg p-8 text-center text-text-muted">
+          <p class="text-sm">Visual snake ferry schedule coming in a future update.</p>
+          <p class="text-sm mt-2">In the meantime, see the <a href="https://www.bcferries.com/routes-fares/schedules/seasonal/THT-CHM" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">BC Ferries schedule</a>.</p>
+        </div>
+      </div>
+
+      <!-- Webcam embeds — placeholder images, auto-refresh coming in Stage 4 -->
+      <div>
+        <h2 class="text-xl font-semibold text-primary mb-3">Chemainus Terminal Webcam</h2>
+        <p class="text-text mb-3">View current traffic at the Chemainus ferry terminal. The image refreshes automatically.</p>
+        <div class="bg-surface border rounded-lg overflow-hidden mb-2">
+          <img src="https://ccimg.bcferries.com/cc/support/terminals/cam1_CHM.jpg" alt="Chemainus Terminal Webcam" class="w-full" loading="lazy">
+        </div>
+        <a href="https://www.bcferries.com/current-conditions/CHM-THT" target="_blank" rel="noopener noreferrer" class="text-accent text-sm hover:underline">View on BC Ferries site &rarr;</a>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-primary mb-3">Thetis Island Ferry Cam</h2>
+        <p class="text-text mb-3">This camera shows the Thetis Island ferry lineup.</p>
+        <div class="bg-surface border rounded-lg overflow-hidden mb-2">
+          <img src="https://www.thetisisland.net/ferry/camera/cars.jpg" alt="Thetis Island Ferry Cam" class="w-full" loading="lazy">
+        </div>
+        <a href="https://www.thetisisland.net/ferry/index.html" target="_blank" rel="noopener noreferrer" class="text-accent text-sm hover:underline">View on Thetis Island website &rarr;</a>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-primary mb-3">Live Vessel Tracking</h2>
+        <p class="text-text mb-3">Follow the ferry's exact position in real time using VesselFinder's AIS-based tracking.</p>
+        <a href="https://www.vesselfinder.com/vessels/details/9029267" target="_blank" rel="noopener noreferrer" class="text-accent font-medium hover:underline">Track MV Pune Luxutth on VesselFinder &rarr;</a>
+        <p class="text-text text-sm mt-2">The VesselFinder app is also available for <a href="https://www.vesselfinder.com/apps" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">iOS and Android</a> for tracking on your phone.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,10 +1,33 @@
 ---
+import { getCollection, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const allServices = await getCollection("services");
+const sorted = allServices.sort((a, b) => {
+  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+  return a.data.name.localeCompare(b.data.name);
+});
+
+const rendered = await Promise.all(
+  sorted.map(async (service) => {
+    const { Content } = await render(service);
+    return { service, Content };
+  })
+);
 ---
 
 <BaseLayout title="Our Services" description="Services provided by TIRRA for the Thetis Island community.">
   <section class="mx-auto max-w-4xl px-4 py-12">
-    <h1 class="text-3xl font-bold text-primary mb-6">Our Services</h1>
-    <p class="text-text-muted">Content coming soon. This page will describe services TIRRA provides directly to the community, including solid waste management, St. Margaret's Cemetery, trails, and transportation.</p>
+    <h1 class="text-3xl font-bold text-primary mb-4">Our Services</h1>
+    <p class="text-text-muted mb-10">Programs managed by TIRRA for residents and visitors alike.</p>
+
+    {rendered.map(({ service, Content }) => (
+      <div class="mb-10">
+        <h2 class="text-xl font-semibold text-primary mb-3">{service.data.name}</h2>
+        <div class="prose prose-sm max-w-none text-text">
+          <Content />
+        </div>
+      </div>
+    ))}
   </section>
 </BaseLayout>

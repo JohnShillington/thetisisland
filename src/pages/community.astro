@@ -1,10 +1,69 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const allOrgs = await getCollection("organizations");
+
+const categoryOrder = ["organization", "club", "social-service", "social-exercise"] as const;
+const categoryLabels: Record<string, string> = {
+  organization: "Organizations",
+  club: "Clubs & Volunteer Groups",
+  "social-service": "Social Services",
+  "social-exercise": "Social & Exercise Groups",
+};
+
+function sortOrgs(orgs: typeof allOrgs) {
+  return orgs.sort((a, b) => {
+    if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+    return a.data.name.localeCompare(b.data.name);
+  });
+}
+
+const grouped = categoryOrder.map((cat) => ({
+  category: cat,
+  label: categoryLabels[cat],
+  orgs: sortOrgs(allOrgs.filter((o) => o.data.category === cat)),
+})).filter((g) => g.orgs.length > 0);
 ---
 
 <BaseLayout title="Community & Groups" description="Organizations, clubs and volunteer groups on Thetis Island.">
-  <section class="mx-auto max-w-4xl px-4 py-12">
-    <h1 class="text-3xl font-bold text-primary mb-6">Community &amp; Groups</h1>
-    <p class="text-text-muted">Content coming soon. This page will link to peer organizations on the island including Forbes Hall, TIVFD, ThINC, and many more.</p>
+  <section class="mx-auto max-w-5xl px-4 py-12">
+    <h1 class="text-3xl font-bold text-primary mb-4">Community &amp; Groups</h1>
+    <p class="text-text-muted mb-10">Thetis Island is home to many organizations and groups, each with their own programs and information. Follow the links to visit each directly.</p>
+
+    {grouped.map((group) => (
+      <div class="mb-10">
+        <h2 class="text-xl font-semibold text-primary mb-4 border-b border-primary/20 pb-2">{group.label}</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {group.orgs.map((org) => (
+            <div class="bg-surface rounded-lg shadow p-5 flex flex-col">
+              <h3 class="font-semibold text-primary mb-1 text-sm">{org.data.name}</h3>
+              <p class="text-text-muted text-sm flex-1">{org.data.tagline}</p>
+              {org.data.url && (
+                org.data.url.startsWith("/") ? (
+                  <a
+                    href={org.data.url}
+                    class="mt-3 text-accent text-sm font-medium hover:underline"
+                  >
+                    Learn more &rarr;
+                  </a>
+                ) : (
+                  <a
+                    href={org.data.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mt-3 text-accent text-sm font-medium hover:underline"
+                  >
+                    Visit website &rarr;
+                  </a>
+                )
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <p class="text-sm text-text-muted mt-6">If your organization or group isn't listed, please let us know via our <a href="/contact" class="text-accent hover:underline">contact page</a>.</p>
   </section>
 </BaseLayout>

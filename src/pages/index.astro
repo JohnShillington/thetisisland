@@ -1,5 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const cards = [
+  { title: "Ferry Info", href: "/ferry", text: "Check the BC Ferries schedule, webcams and vessel tracking." },
+  { title: "Our Services", href: "/services", text: "TIRRA-managed services including solid waste, trails, cemetery and more." },
+  { title: "Community & Groups", href: "/community", text: "Connect with local organizations, clubs and volunteer groups." },
+  { title: "Visitors", href: "/visitors", text: "Travel tips, accommodations and recreation ideas for visitors." },
+  { title: "Emergency", href: "/emergency", text: "Emergency contacts, fire danger levels and preparedness information." },
+  { title: "Calendar", href: "/calendar", text: "Upcoming events across the island in our combined community calendar." },
+] as const;
 ---
 
 <BaseLayout title="Home">
@@ -13,30 +22,18 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <section class="mx-auto max-w-6xl px-4 py-12">
     <h2 class="text-2xl font-bold text-primary mb-8 text-center">Find What You Need</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="bg-surface rounded-lg shadow p-6">
-        <h3 class="font-semibold text-primary mb-2">Ferry Info</h3>
-        <p class="text-sm text-text-muted">Check the BC Ferries schedule and webcams to plan your trip.</p>
-      </div>
-      <div class="bg-surface rounded-lg shadow p-6">
-        <h3 class="font-semibold text-primary mb-2">Our Services</h3>
-        <p class="text-sm text-text-muted">TIRRA-managed services including solid waste, trails, cemetery and more.</p>
-      </div>
-      <div class="bg-surface rounded-lg shadow p-6">
-        <h3 class="font-semibold text-primary mb-2">Community &amp; Groups</h3>
-        <p class="text-sm text-text-muted">Connect with local organizations, clubs and volunteer groups.</p>
-      </div>
-      <div class="bg-surface rounded-lg shadow p-6">
-        <h3 class="font-semibold text-primary mb-2">Visitors</h3>
-        <p class="text-sm text-text-muted">Travel tips, accommodations and recreation ideas for visitors.</p>
-      </div>
-      <div class="bg-surface rounded-lg shadow p-6">
-        <h3 class="font-semibold text-primary mb-2">Emergency</h3>
-        <p class="text-sm text-text-muted">Emergency contacts, fire danger levels and preparedness information.</p>
-      </div>
-      <div class="bg-surface rounded-lg shadow p-6">
-        <h3 class="font-semibold text-primary mb-2">Calendar</h3>
-        <p class="text-sm text-text-muted">See upcoming events across the island in our combined community calendar.</p>
-      </div>
+      {cards.map((card) => (
+        <a href={card.href} class="bg-surface rounded-lg shadow p-6 hover:shadow-md transition-shadow group">
+          <h3 class="font-semibold text-primary mb-2 group-hover:text-accent transition-colors">{card.title}</h3>
+          <p class="text-sm text-text-muted">{card.text}</p>
+        </a>
+      ))}
     </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 pb-12">
+    <h2 class="text-2xl font-bold text-primary mb-4">About TIRRA</h2>
+    <p class="text-text mb-3">The Thetis Island Residents and Ratepayers Association (TIRRA) is a volunteer-run organization that advocates for residents, coordinates essential services and fosters a strong island community. From managing solid waste and trails to supporting local initiatives, TIRRA plays a vital role in daily life on Thetis.</p>
+    <a href="/about" class="text-accent font-medium hover:underline">Learn more about TIRRA &rarr;</a>
   </section>
 </BaseLayout>
