@@ -1,0 +1,284 @@
+/*
+  Stylesheet for Thetisisland.net prototype.
+  Defines global styles, layout utilities, and component styles.
+  Uses a light, coastal palette inspired by Thetis Island's forests and waters.
+*/
+
+/* CSS Variables for colour palette */
+:root {
+  --colour-primary: #2e6b6a; /* deep teal for headers */
+  --colour-secondary: #3a9d93; /* accent teal for highlights */
+  --colour-background: #f5f9f8; /* very light grey-green background */
+  --colour-card-bg: #ffffff; /* white cards */
+  --colour-text: #333333; /* dark grey for body text */
+  --colour-footer: #1f4948; /* darker shade for footer */
+}
+
+/* Global reset and base styling */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--colour-background);
+  color: var(--colour-text);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--colour-secondary);
+  text-decoration: none;
+  transition: colour 0.2s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Header and navigation */
+header {
+  background: var(--colour-primary);
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+header .logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: white;
+  font-size: 0.9rem;
+  padding: 5px 8px;
+  border-radius: 4px;
+}
+
+nav a:hover {
+  background: var(--colour-secondary);
+}
+
+/* Hero section */
+.hero {
+  position: relative;
+  height: 320px;
+  background-image: url('assets/hero.png');
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+}
+
+.hero::after {
+  /* semi-transparent overlay for contrast */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(46, 107, 106, 0.5);
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  opacity: 0.9;
+}
+
+/* Sections */
+section {
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+section h2 {
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  colour: var(--colour-primary);
+}
+
+section p {
+  margin-bottom: 15px;
+}
+
+/* Quick Links / Cards */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.card {
+  background: var(--colour-card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  flex: 1 1 220px;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  colour: var(--colour-primary);
+}
+
+.card p {
+  font-size: 0.9rem;
+  colour: #555;
+}
+
+.card a {
+  display: inline-block;
+  margin-top: 10px;
+  colour: var(--colour-secondary);
+  font-weight: bold;
+}
+
+/* Images inside cards (e.g., fire danger bar) */
+.card img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px 0;
+}
+
+/* Fire danger bar styling inside fire-rating section */
+.fire-rating img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px 0;
+}
+
+/* Webcam container for webcam images */
+.webcam-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.webcam-container img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Fire danger highlight box */
+.fire-rating {
+  background: var(--colour-secondary);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.fire-rating h2 {
+  margin-bottom: 10px;
+  color: white;
+}
+
+.fire-rating a {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Form styles */
+form .form-group {
+  margin-bottom: 15px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="email"],
+form textarea,
+form select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+form input[type="submit"] {
+  background: var(--colour-primary);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+form input[type="submit"]:hover {
+  background: var(--colour-secondary);
+}
+
+/* Footer */
+footer {
+  background: var(--colour-footer);
+  color: #e0f1f0;
+  padding: 20px;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+footer a {
+  color: #cce8e6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 1.6rem;
+  }
+  nav {
+    gap: 10px;
+  }
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thetis Island Community | Community Calendar</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="logo"><a href="index.html" style="color: inherit; text-decoration: none;">Thetis Island Community</a></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="services.html">Our Services</a>
+      <a href="community.html">Community &amp; Groups</a>
+      <a href="visitors.html">Visitors</a>
+      <a href="emergency.html">Emergency</a>
+      <a href="calendar.html">Calendar</a>
+      <a href="communications.html">Communications</a>
+      <a href="about.html">About TIRRA</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Community Calendar</h1>
+      <p>A consolidated view of island events, maintained by our community.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Island Events at a Glance</h2>
+    <p>This calendar combines events from participating organizations on Thetis Island. Each group maintains its own schedule; updates and changes appear here automatically. You can click an event for details or use the tabs at the top to switch views.</p>
+    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+      <!-- Embedded Google Calendar. Adjust height as needed. -->
+      <!-- Updated combined calendar embed from Google Calendar with multiple sources and colour settings -->
+      <iframe
+        src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FVancouver&showPrint=0&src=dGhldGlzaXNsYW5kY2FsZW5kYXJAZ21haWwuY29t&src=MzNkYjEzZmIyM2JmNjZlYWNkYmIxYjIwODEwNmQ0NjA1YmNjZWJkODk5OTFmM2RiZjE5ZTgxODBkNTE5OWNjOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=M2EyZDkxNmU0NTA1NTBhM2FmYjI2YTA4MWY1M2M0MWQ5MzdiMzE3ZDgzMDMxNDkyNTZlNGYzYjA5MDM5NTM1ZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YWIzMzI4MjZlNjBiYWFlMjUzZjE0YmYxNzJjNWU2ZWJjODc5NjI3NzgyNTEzZDJhMjNjOTVlMWE5NTI2Zjc3OEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23039be5&color=%238e24aa&color=%239e69af&color=%23795548"
+        style="border:0; width:100%; min-height:600px;"
+        frameborder="0"
+        scrolling="no"></iframe>
+    </div>
+    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Need to add your group’s events? Please contact <a href="mailto:ThetisIslandCalendar@gmail.com">ThetisIslandCalendar@gmail.com</a> for instructions on sharing your calendar, or use the submission form if your group doesn’t have one.</p>
+
+    <h3 style="margin-top: 30px;">Submit an Event</h3>
+    <p>If you’d like to suggest an event for the Community Submissions calendar, fill in the form below. Your submission will be reviewed and published to the calendar.</p>
+    <form action="mailto:ThetisIslandCalendar@gmail.com?subject=Community%20Event%20Submission" method="post" enctype="text/plain">
+      <div class="form-group">
+        <label for="event-title">Event Title</label>
+        <input type="text" id="event-title" name="Event Title" required>
+      </div>
+      <div class="form-group">
+        <label for="event-date">Date</label>
+        <input type="date" id="event-date" name="Date" required>
+      </div>
+      <div class="form-group" style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <div style="flex: 1 1 150px;">
+          <label for="start-time">Start Time</label>
+          <!-- Use a plain text field instead of a native time picker. The time
+               picker implementation in Chromium doesn't function properly with
+               simple mailto forms and often raises an 'Invalid value' error
+               during testing. A text field with a placeholder allows users to
+               freely type their desired time (e.g., 14:00) without validation
+               errors. -->
+          <input type="text" id="start-time" name="Start Time" placeholder="HH:MM (e.g., 14:00)" required>
+        </div>
+        <div style="flex: 1 1 150px;">
+          <label for="end-time">End Time</label>
+          <!-- Also use a text field for the end time for the same reasons -->
+          <input type="text" id="end-time" name="End Time" placeholder="HH:MM (e.g., 15:30)" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" id="location" name="Location" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Description / Notes</label>
+        <textarea id="description" name="Description" rows="4" placeholder="Add details about your event"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="contact">Your Email</label>
+        <input type="email" id="contact" name="Contact Email" required>
+      </div>
+      <input type="submit" value="Submit Event">
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Thetis Island Residents &amp; Ratepayers Association. All rights reserved.</p>
+    <p>Site design for demonstration purposes only.</p>
+  </footer>
+</body>
+</html>
