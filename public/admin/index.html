@@ -20,35 +20,28 @@
       dbg("JS ERROR: " + e.message + " at " + e.filename + ":" + e.lineno);
     });
 
-    // Log ALL message events
+    // Intercept auth messages from the popup and re-dispatch from same origin.
+    // Decap CMS v3 may check e.origin — messages from the auth worker's origin
+    // get rejected. Re-posting from window to itself makes e.origin match.
+    var relayed = false;
     window.addEventListener("message", function(e) {
       var d = e.data;
-      var type = typeof d;
-      if (type !== "string") {
-        // Skip non-string messages (React devtools, extensions, etc.)
+      if (typeof d !== "string") return;
+      if (d.indexOf("authorization:") !== 0) return;
+
+      dbg("MESSAGE from: " + e.origin);
+      dbg("  data: " + d.substring(0, 80) + "…");
+
+      // If this message came from a different origin, re-post it from our own
+      if (e.origin !== window.location.origin && !relayed) {
+        relayed = true;
+        dbg("  → Re-posting from same origin…");
+        window.postMessage(d, window.location.origin);
         return;
       }
-      if (d.indexOf("authorization:") !== 0 && d.indexOf("authorizing:") !== 0) {
-        return; // Not auth-related
-      }
 
-      dbg("MESSAGE event:");
-      dbg("  origin: " + e.origin);
-      dbg("  typeof data: " + type);
-      dbg("  data length: " + d.length);
-      dbg("  data: " + d);
-
-      // Test the exact regex Decap uses
-      var re = new RegExp("^authorization:github:success:(.+)$");
-      var match = d.match(re);
-      dbg("  Decap regex match: " + (match ? "YES → payload = " + match[1].substring(0, 60) + "…" : "NO MATCH"));
-      if (match) {
-        try {
-          var parsed = JSON.parse(match[1]);
-          dbg("  JSON.parse: OK → token starts with " + (parsed.token || "").substring(0, 8) + "…, provider = " + parsed.provider);
-        } catch(err) {
-          dbg("  JSON.parse FAILED: " + err.message);
-        }
+      if (relayed) {
+        dbg("  → Same-origin relay delivered (origin now: " + e.origin + ")");
       }
     }, false);
 
