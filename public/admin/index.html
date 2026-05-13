@@ -6,6 +6,20 @@
   <title>Thetis Island — Content Editor</title>
 </head>
 <body>
+  <script>
+    // Fallback for Safari: if the OAuth callback couldn't use postMessage
+    // (window.opener was null), it stores the auth result in sessionStorage
+    // and redirects here. Replay it as a message event so Decap picks it up.
+    (function() {
+      var msg = sessionStorage.getItem("decap-cms-auth");
+      if (msg) {
+        sessionStorage.removeItem("decap-cms-auth");
+        window.addEventListener("load", function() {
+          window.postMessage(msg, "*");
+        });
+      }
+    })();
+  </script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>
