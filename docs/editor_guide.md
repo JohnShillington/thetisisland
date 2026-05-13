@@ -1,5 +1,7 @@
 # Thetis Island Website — Editor Guide
 
+> **Reading this file:** This guide lives in the project's GitHub repository, where it's rendered as a formatted page. View it at: https://github.com/JohnShillington/thetisisland/blob/main/docs/editor_guide.md — or open the raw `.md` file in any Markdown viewer (macOS Finder Quick Look works; so does any text editor).
+
 A quick-start guide for editing content on thetisisland.net using the Decap CMS admin panel.
 
 ## Logging In
@@ -100,4 +102,4 @@ If you make a mistake, you can edit the entry again and correct it — the site 
 - **Preview before publishing:** Use the preview pane on the right side of the editor to see how your content will look.
 - **Don't worry about HTML:** Write in Markdown or use the rich text toolbar. The site handles all styling automatically.
 - **Links:** For external sites, always include the full URL starting with `https://`. For other pages on our site, use the path (e.g., `/contact`).
-- **Questions?** Contact webmaster@thetisisland.net for help with the editor, or info@thetisisland.net for general website questions.
+- **Questions?** Contact John Shillington (john.shillington@gmail.com) for help with the editor itself, or with anything technical about how the site works. Once you're comfortable with the editor, you can update this line to point future contributors to whoever's the right contact then.
