@@ -6,31 +6,59 @@
   <title>Thetis Island — Content Editor</title>
 </head>
 <body>
+  <div id="debug-log" style="position:fixed;top:0;left:0;right:0;background:#222;color:#0f0;padding:10px;z-index:99999;font-family:monospace;font-size:12px;white-space:pre-wrap;max-height:40vh;overflow:auto;display:none"></div>
   <script>
-    // DEBUG: Log ALL incoming postMessage events so we can see what arrives
+    var log = document.getElementById("debug-log");
+    function dbg(msg) {
+      log.style.display = "block";
+      log.textContent += msg + "\n";
+      console.log("[DEBUG]", msg);
+    }
+
+    // Catch any JS errors (might explain why Decap doesn't init)
+    window.addEventListener("error", function(e) {
+      dbg("JS ERROR: " + e.message + " at " + e.filename + ":" + e.lineno);
+    });
+
+    // Log ALL message events
     window.addEventListener("message", function(e) {
-      if (typeof e.data === "string" && e.data.indexOf("authorization:") === 0) {
-        var el = document.createElement("div");
-        el.style.cssText = "position:fixed;top:0;left:0;right:0;background:#0a0;color:#fff;padding:12px;z-index:99999;font-family:monospace;font-size:13px;white-space:pre-wrap";
-        el.textContent = "MESSAGE RECEIVED!\nOrigin: " + e.origin + "\nData: " + e.data.substring(0, 80) + "…";
-        document.body.appendChild(el);
-        console.log("AUTH MESSAGE RECEIVED", e.origin, e.data);
+      var d = e.data;
+      var type = typeof d;
+      if (type !== "string") {
+        // Skip non-string messages (React devtools, extensions, etc.)
+        return;
+      }
+      if (d.indexOf("authorization:") !== 0 && d.indexOf("authorizing:") !== 0) {
+        return; // Not auth-related
+      }
+
+      dbg("MESSAGE event:");
+      dbg("  origin: " + e.origin);
+      dbg("  typeof data: " + type);
+      dbg("  data length: " + d.length);
+      dbg("  data: " + d);
+
+      // Test the exact regex Decap uses
+      var re = new RegExp("^authorization:github:success:(.+)$");
+      var match = d.match(re);
+      dbg("  Decap regex match: " + (match ? "YES → payload = " + match[1].substring(0, 60) + "…" : "NO MATCH"));
+      if (match) {
+        try {
+          var parsed = JSON.parse(match[1]);
+          dbg("  JSON.parse: OK → token starts with " + (parsed.token || "").substring(0, 8) + "…, provider = " + parsed.provider);
+        } catch(err) {
+          dbg("  JSON.parse FAILED: " + err.message);
+        }
       }
     }, false);
 
-    // Fallback for Safari: if the OAuth callback couldn't use postMessage
-    // (window.opener was null), it stores the auth result in sessionStorage
-    // and redirects here. Replay it as a message event so Decap picks it up.
-    (function() {
-      var msg = sessionStorage.getItem("decap-cms-auth");
-      if (msg) {
-        sessionStorage.removeItem("decap-cms-auth");
-        window.addEventListener("load", function() {
-          window.postMessage(msg, "*");
-        });
-      }
-    })();
+    dbg("Debug listener registered. Waiting for Decap CMS to load…");
   </script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    dbg("Decap CMS script loaded. Checking window.CMS: " + (typeof window.CMS));
+    // Count message listeners to see if Decap registered one
+    dbg("Tip: if no Decap regex match or JS errors above, the backend may not be initializing.");
+  </script>
 </body>
 </html>
