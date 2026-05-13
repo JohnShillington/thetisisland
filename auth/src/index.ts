@@ -78,7 +78,7 @@ async function handleCallback(url: URL, env: Env): Promise<Response> {
     `<!doctype html>
 <html><body><script>
 (function() {
-  window.opener.postMessage(${JSON.stringify(content)}, location.origin);
+  window.opener.postMessage(${JSON.stringify(content)}, "*");
   window.close();
 })();
 </script></body></html>`,
