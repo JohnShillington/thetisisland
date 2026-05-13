@@ -2,21 +2,10 @@
 import { getEntry, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SnakeSchedule from "../components/SnakeSchedule.astro";
-import fs from "node:fs";
-import yaml from "js-yaml";
+import schedule from "../data/ferry-schedule.json";
 
 const page = await getEntry("pages", "ferry");
 const { Content } = await render(page);
-
-// Load ferry schedule data
-const scheduleRaw = fs.readFileSync("src/data/ferry-schedule.yaml", "utf-8");
-const schedule = yaml.load(scheduleRaw) as {
-  effective_date: string;
-  saturday_thursday: any[];
-  friday: any[];
-  legend: Record<string, string>;
-  notes: string[];
-};
 ---
 
 <BaseLayout title="Ferry Info" description={page.data.description}>
