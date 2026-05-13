@@ -3,6 +3,7 @@ title: Ferry Information
 description: Ferry schedules, webcams and vessel tracking for Thetis Island.
 editor_notes: >-
   VERIFY: VesselFinder link for MV Pune Luxutth (IMO 9029267) — is Pune Luxutth still the ferry on this route? Vessels get reassigned.
+  VERIFY: Snake schedule times are from Jan 2, 2025 PDF. Confirm they match the current BC Ferries schedule. The schedule data file is at src/data/ferry-schedule.yaml — ask John to update if times have changed.
   NOTE: Thetis ferry cam URL (thetisisland.net/ferry/camera/cars.jpg) is on the old hosting — will break after domain cutover unless preserved.
   NOTE: Chemainus webcam URL may break if BC Ferries changes their URL structure.
 ---

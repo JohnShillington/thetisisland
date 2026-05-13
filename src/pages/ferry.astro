@@ -1,9 +1,22 @@
 ---
 import { getEntry, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SnakeSchedule from "../components/SnakeSchedule.astro";
+import fs from "node:fs";
+import yaml from "js-yaml";
 
 const page = await getEntry("pages", "ferry");
 const { Content } = await render(page);
+
+// Load ferry schedule data
+const scheduleRaw = fs.readFileSync("src/data/ferry-schedule.yaml", "utf-8");
+const schedule = yaml.load(scheduleRaw) as {
+  effective_date: string;
+  saturday_thursday: any[];
+  friday: any[];
+  legend: Record<string, string>;
+  notes: string[];
+};
 ---
 
 <BaseLayout title="Ferry Info" description={page.data.description}>
@@ -15,13 +28,35 @@ const { Content } = await render(page);
       <Content />
     </div>
 
-    <!-- Snake ferry schedule — placeholder for Stage 5 -->
     <div class="space-y-10">
       <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">Snake Schedule</h2>
-        <div class="bg-surface border-2 border-dashed border-primary/20 rounded-lg p-8 text-center text-text-muted">
-          <p class="text-sm">Visual snake ferry schedule coming in a future update.</p>
-          <p class="text-sm mt-2">In the meantime, see the <a href="https://www.bcferries.com/routes-fares/schedules/seasonal/THT-CHM" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">BC Ferries schedule</a>.</p>
+        <h2 class="text-xl font-semibold text-primary mb-3">Schedule</h2>
+        <p class="text-xs text-text-muted mb-4">As of {schedule.effective_date}. See the <a href="https://www.bcferries.com/routes-fares/schedules/seasonal/THT-CHM" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">BC Ferries website</a> for the most current schedule.</p>
+
+        <div class="space-y-8">
+          <SnakeSchedule sailings={schedule.saturday_thursday} title="Saturday through Thursday" />
+          <SnakeSchedule sailings={schedule.friday} title="Friday" />
+        </div>
+
+        {/* Legend */}
+        <div class="mt-6 space-y-1 text-xs text-text-muted">
+          <p class="flex items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 16 16" class="inline-block flex-shrink-0">
+              <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5" />
+              <line x1="3" y1="13" x2="13" y2="3" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+            <span>{schedule.legend["probable-dc"]}</span>
+          </p>
+          <p class="flex items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 16 16" class="inline-block flex-shrink-0">
+              <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5" />
+              <text x="8" y="12" text-anchor="middle" font-size="11" font-weight="bold" fill="currentColor">?</text>
+            </svg>
+            <span>{schedule.legend["possible-dc"]}</span>
+          </p>
+          {schedule.notes.map((note) => (
+            <p class="italic">{note}</p>
+          ))}
         </div>
       </div>
 

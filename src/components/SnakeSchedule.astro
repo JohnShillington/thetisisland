@@ -1,0 +1,221 @@
+---
+/**
+ * SnakeSchedule.astro
+ * Renders a ferry schedule as an inline SVG "snake" diagram.
+ * Three columns (Thetis, Penelakut, Chemainus) with dotted connectors.
+ */
+
+interface Sailing {
+  thetis: string | null;
+  penelakut: string | null;
+  chemainus: string | null;
+  flag?: string;
+}
+
+interface Props {
+  sailings: Sailing[];
+  title: string;
+}
+
+const { sailings, title } = Astro.props;
+
+// --- Layout constants ---
+const COL_T = 90;
+const COL_P = 270;
+const COL_C = 450;
+const HEADER_Y = 40;
+const START_Y = 72;
+const ROW_H = 34;
+const SVG_W = 540;
+
+// Build visual rows
+interface Row {
+  dir: "east" | "west";
+  t: string | null;
+  p: string | null;
+  c: string | null;
+  flag?: string;
+  y: number;
+}
+
+const rows: Row[] = sailings.map((s, i) => ({
+  dir: i % 2 === 0 ? "east" : "west",
+  t: s.thetis,
+  p: s.penelakut,
+  c: s.chemainus,
+  flag: s.flag,
+  y: START_Y + i * ROW_H,
+}));
+
+const SVG_H = START_Y + rows.length * ROW_H + 10;
+
+// Get x positions of all active stops in a row, ordered left to right
+function activeXs(row: Row): number[] {
+  const xs: number[] = [];
+  if (row.t) xs.push(COL_T);
+  if (row.p) xs.push(COL_P);
+  if (row.c) xs.push(COL_C);
+  return xs;
+}
+
+// The rightmost or leftmost point in a row (where the snake "ends" before dropping)
+function endX(row: Row): number {
+  if (row.dir === "east") {
+    if (row.c) return COL_C;
+    if (row.p) return COL_P;
+    return COL_T;
+  } else {
+    if (row.t) return COL_T;
+    if (row.p) return COL_P;
+    return COL_C;
+  }
+}
+
+// Where the connector starts on a row (where it enters from the vertical drop)
+function startX(row: Row, prevRow: Row | null): number {
+  if (!prevRow) {
+    return row.dir === "east" ? COL_T : COL_C;
+  }
+  return endX(prevRow);
+}
+
+// Accessibility label
+function ariaLabel(row: Row): string {
+  const stops = row.dir === "east"
+    ? [row.t && `Thetis ${row.t}`, row.p && `Penelakut ${row.p}`, row.c && `Chemainus ${row.c}`]
+    : [row.c && `Chemainus ${row.c}`, row.p && `Penelakut ${row.p}`, row.t && `Thetis ${row.t}`];
+  const label = stops.filter(Boolean).join(" → ");
+  const flagText = row.flag === "probable-dc" ? " (Probable DC)"
+    : row.flag === "possible-dc" ? " (Possible DC)"
+    : row.flag === "arrival-only" ? " (Arrival only)" : "";
+  return label + flagText;
+}
+---
+
+<div class="snake-schedule-wrapper">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox={`0 0 ${SVG_W} ${SVG_H}`}
+    class="w-full max-w-xl mx-auto"
+    role="img"
+    aria-label={`${title} ferry schedule`}
+    style="font-family: system-ui, -apple-system, sans-serif;"
+  >
+    <title>{title} Ferry Schedule</title>
+
+    <defs>
+      {/* Single arrowhead — orient="auto" rotates it to match line direction */}
+      <marker id="arrow" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+        <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#555" stroke-width="1" />
+      </marker>
+    </defs>
+
+    {/* Title */}
+    <text x={SVG_W / 2} y="18" text-anchor="middle" font-size="14" font-weight="bold" fill="#2E6B6A">
+      {title} DEPART
+    </text>
+
+    {/* Column headers */}
+    <text x={COL_T} y={HEADER_Y} text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Thetis</text>
+    <text x={COL_P} y={HEADER_Y} text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Penelakut</text>
+    <text x={COL_C} y={HEADER_Y} text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Chemainus</text>
+    <line x1="25" y1={HEADER_Y + 5} x2={SVG_W - 25} y2={HEADER_Y + 5} stroke="#2E6B6A" stroke-width="1.5" />
+
+    {rows.map((row, i) => {
+      const prev = i > 0 ? rows[i - 1] : null;
+      const y = row.y;
+
+      // Where the horizontal connector goes
+      const sX = startX(row, prev);           // where vertical drop arrives
+      const eX = endX(row);                   // where the row ends
+
+      // The horizontal line: always draw from the start side to the end side
+      // For east: left to right. For west: right to left.
+      const lineFromX = row.dir === "east" ? Math.min(sX, COL_T) : Math.max(sX, COL_C);
+      const lineToX = eX;
+
+      // Determine which stops are between lineFromX and lineToX
+      const leftX = Math.min(lineFromX, lineToX);
+      const rightX = Math.max(lineFromX, lineToX);
+
+      // Vertical connector from previous row
+      const dropX = prev ? endX(prev) : null;
+
+      return (
+        <g role="listitem" aria-label={ariaLabel(row)}>
+          {/* Vertical drop from previous row */}
+          {dropX !== null && prev && (
+            <line
+              x1={dropX} y1={prev.y + 4}
+              x2={dropX} y2={y}
+              stroke="#aaa" stroke-width="1" stroke-dasharray="2,2"
+            />
+          )}
+
+          {/* Horizontal connector with arrow at the end */}
+          {leftX !== rightX && (
+            <line
+              x1={row.dir === "east" ? leftX : rightX}
+              y1={y}
+              x2={row.dir === "east" ? rightX : leftX}
+              y2={y}
+              stroke="#555"
+              stroke-width="1.2"
+              stroke-dasharray="4,3"
+              marker-end="url(#arrow)"
+            />
+          )}
+
+          {/* Stop dots and time labels */}
+          {row.t && (
+            <>
+              <circle cx={COL_T} cy={y} r="3" fill="#2E6B6A" />
+              <text x={COL_T} y={y - 8} text-anchor="middle" font-size="10.5" fill="#333">{row.t}</text>
+            </>
+          )}
+          {row.p && (
+            <>
+              <circle cx={COL_P} cy={y} r="3" fill="#2E6B6A" />
+              <text x={COL_P} y={y - 8} text-anchor="middle" font-size="10.5" fill="#333">{row.p}</text>
+            </>
+          )}
+          {row.c && (
+            <>
+              <circle cx={COL_C} cy={y} r="3" fill="#2E6B6A" />
+              <text x={COL_C} y={y - 8} text-anchor="middle" font-size="10.5" fill="#333">{row.c}</text>
+            </>
+          )}
+
+          {/* Flag icons */}
+          {row.flag === "probable-dc" && (
+            <g transform={`translate(${row.dir === "east" ? eX + 10 : eX - 24}, ${y - 8})`}>
+              <circle cx="8" cy="8" r="6.5" fill="none" stroke="#333" stroke-width="1.3" />
+              <line x1="3.5" y1="12.5" x2="12.5" y2="3.5" stroke="#333" stroke-width="1.3" />
+            </g>
+          )}
+          {row.flag === "possible-dc" && (
+            <g transform={`translate(${row.dir === "east" ? eX + 10 : eX - 24}, ${y - 8})`}>
+              <circle cx="8" cy="8" r="6.5" fill="none" stroke="#333" stroke-width="1.3" />
+              <text x="8" y="11.5" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">?</text>
+            </g>
+          )}
+          {row.flag === "arrival-only" && row.t && (
+            <text x={COL_T} y={y + 13} text-anchor="middle" font-size="8.5" fill="#666" font-style="italic">
+              arrival only
+            </text>
+          )}
+        </g>
+      );
+    })}
+  </svg>
+
+  {/* Screen reader fallback */}
+  <div class="sr-only">
+    <h3>{title}</h3>
+    <ol>
+      {rows.map((row) => (
+        <li>{ariaLabel(row)}</li>
+      ))}
+    </ol>
+  </div>
+</div>

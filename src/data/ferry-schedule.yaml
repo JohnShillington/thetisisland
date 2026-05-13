@@ -1,0 +1,198 @@
+# Thetis / Penelakut / Chemainus Ferry Schedule
+# Source: Jan 2025 revised schedule (thetisisland.net/ferry/Jan2025_revised_ferry_schedule.pdf)
+# VERIFY with Karl: confirm times match the current BC Ferries schedule.
+# Reference: https://www.bcferries.com/routes-fares/schedules/seasonal/THT-CHM
+
+effective_date: "January 2, 2025"
+
+# Each sailing is one trip. Times are listed at each terminal the ferry visits.
+# null means the ferry skips that terminal.
+# Sailings alternate direction automatically (east then west then east...).
+# flag: probable-dc | possible-dc | arrival-only
+
+saturday_thursday:
+  #  1. T → P → C
+  - thetis: "5:45 AM"
+    penelakut: "6:05 AM"
+    chemainus: "6:45 AM"
+  #  2. C → P → T
+  - chemainus: null
+    penelakut: "7:20 AM"
+    thetis: "7:45 AM"
+  #  3. T → C (skip P)
+  - thetis: null
+    penelakut: null
+    chemainus: "8:25 AM"
+    flag: possible-dc
+  #  4. C → T (skip P)
+  - chemainus: null
+    penelakut: null
+    thetis: "9:00 AM"
+    flag: probable-dc
+  #  5. T → P → C
+  - thetis: null
+    penelakut: "9:20 AM"
+    chemainus: "10:00 AM"
+  #  6. C → T (skip P)
+  - chemainus: null
+    penelakut: null
+    thetis: "10:40 AM"
+  #  7. T → P → C
+  - thetis: null
+    penelakut: "11:00 AM"
+    chemainus: "12:25 PM"
+    flag: probable-dc
+  #  8. C → P → T
+  - chemainus: null
+    penelakut: "1:05 PM"
+    thetis: "1:30 PM"
+    flag: possible-dc
+  #  9. T → C (skip P)
+  - thetis: null
+    penelakut: null
+    chemainus: "2:15 PM"
+  # 10. C → T (skip P)
+  - chemainus: null
+    penelakut: null
+    thetis: "3:10 PM"
+  # 11. T → P → C
+  - thetis: null
+    penelakut: "3:30 PM"
+    chemainus: "4:10 PM"
+  # 12. C → P → T
+  - chemainus: null
+    penelakut: "4:50 PM"
+    thetis: "5:10 PM"
+  # 13. T → C (skip P)
+  - thetis: null
+    penelakut: null
+    chemainus: "5:50 PM"
+  # 14. C → T (skip P)
+  - chemainus: null
+    penelakut: null
+    thetis: "6:30 PM"
+  # 15. T → P → C
+  - thetis: null
+    penelakut: "6:50 PM"
+    chemainus: "7:30 PM"
+  # 16. C → T (skip P)
+  - chemainus: null
+    penelakut: null
+    thetis: "8:05 PM"
+  # 17. T → P → C
+  - thetis: null
+    penelakut: "8:25 PM"
+    chemainus: "9:40 PM"
+  # 18. C → P → T
+  - chemainus: null
+    penelakut: "10:15 PM"
+    thetis: "10:35 PM"
+  # 19. T → C (skip P)
+  - thetis: null
+    penelakut: null
+    chemainus: "11:20 PM"
+  # 20. C → P → T (arrival only)
+  - chemainus: null
+    penelakut: "11:55 PM"
+    thetis: "12:15 AM"
+    flag: arrival-only
+
+friday:
+  #  1. T → P → C
+  - thetis: "5:45 AM"
+    penelakut: "6:05 AM"
+    chemainus: "6:45 AM"
+  #  2. C → P → T
+  - chemainus: null
+    penelakut: "7:20 AM"
+    thetis: "7:40 AM"
+  #  3. T → C (skip P)
+  - thetis: null
+    penelakut: null
+    chemainus: "8:20 AM"
+  #  4. C → T (skip P)
+  - chemainus: null
+    penelakut: null
+    thetis: "8:55 AM"
+  #  5. T → C (skip P)
+  - thetis: null
+    penelakut: null
+    chemainus: "9:35 AM"
+  #  6. C → P → T
+  - chemainus: null
+    penelakut: "10:10 AM"
+    thetis: "10:35 AM"
+  #  7. T → C (skip P)
+  - thetis: null
+    penelakut: null
+    chemainus: "11:25 AM"
+  #  8. C → P (skip T)
+  - chemainus: null
+    penelakut: "12:10 PM"
+    thetis: null
+  #  9. P → C
+  - thetis: null
+    penelakut: null
+    chemainus: "12:50 PM"
+  # 10. C → T (skip P)
+  - chemainus: null
+    penelakut: null
+    thetis: "1:25 PM"
+  # 11. T → P → C
+  - thetis: null
+    penelakut: "1:45 PM"
+    chemainus: "2:25 PM"
+  # 12. C → T (skip P)
+  - chemainus: null
+    penelakut: null
+    thetis: "3:20 PM"
+  # 13. T → P → C
+  - thetis: null
+    penelakut: "3:40 PM"
+    chemainus: "4:20 PM"
+  # 14. C → P → T
+  - chemainus: null
+    penelakut: "5:00 PM"
+    thetis: "5:20 PM"
+  # 15. T → C (skip P)
+  - thetis: null
+    penelakut: null
+    chemainus: "6:00 PM"
+  # 16. C → T (skip P)
+  - chemainus: null
+    penelakut: null
+    thetis: "6:40 PM"
+  # 17. T → P → C
+  - thetis: null
+    penelakut: "7:00 PM"
+    chemainus: "7:40 PM"
+  # 18. C → T (skip P)
+  - chemainus: null
+    penelakut: null
+    thetis: "8:15 PM"
+  # 19. T → P → C
+  - thetis: null
+    penelakut: "8:35 PM"
+    chemainus: "9:50 PM"
+  # 20. C → P → T
+  - chemainus: null
+    penelakut: "10:25 PM"
+    thetis: "10:45 PM"
+  # 21. T → C (skip P)
+  - thetis: null
+    penelakut: null
+    chemainus: "11:25 PM"
+  # 22. C → P → T (arrival only)
+  - chemainus: null
+    penelakut: "12:00 AM"
+    thetis: "12:20 AM"
+    flag: arrival-only
+
+legend:
+  probable-dc: "Probable Dangerous Cargo sailing on alternate Thursdays only, no passengers."
+  possible-dc: "Possible DC sailing on DC Thursdays only, may or may not accept passengers."
+  arrival-only: "Arrival only."
+
+notes:
+  - "Christmas & New Years schedules may start with a later sailing."
+  - "Ferry schedules are subject to change. Current schedules may always be found at the BC Ferries website."
