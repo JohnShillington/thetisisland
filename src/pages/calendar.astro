@@ -5,8 +5,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const page = await getEntry("pages", "calendar");
 const { Content } = await render(page);
 
-// Formspree endpoint for event submissions (same account as membership form)
-const eventFormAction = "https://formspree.io/f/xykoayoo";
+// Formspree endpoint for event submissions (separate form from membership)
+const eventFormAction = "https://formspree.io/f/mvzlnzzd";
 ---
 
 <BaseLayout title={page.data.title} description={page.data.description}>
