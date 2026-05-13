@@ -6,52 +6,6 @@
   <title>Thetis Island — Content Editor</title>
 </head>
 <body>
-  <div id="debug-log" style="position:fixed;top:0;left:0;right:0;background:#222;color:#0f0;padding:10px;z-index:99999;font-family:monospace;font-size:12px;white-space:pre-wrap;max-height:40vh;overflow:auto;display:none"></div>
-  <script>
-    var log = document.getElementById("debug-log");
-    function dbg(msg) {
-      log.style.display = "block";
-      log.textContent += msg + "\n";
-      console.log("[DEBUG]", msg);
-    }
-
-    // Catch any JS errors (might explain why Decap doesn't init)
-    window.addEventListener("error", function(e) {
-      dbg("JS ERROR: " + e.message + " at " + e.filename + ":" + e.lineno);
-    });
-
-    // Intercept auth messages from the popup and re-dispatch from same origin.
-    // Decap CMS v3 may check e.origin — messages from the auth worker's origin
-    // get rejected. Re-posting from window to itself makes e.origin match.
-    var relayed = false;
-    window.addEventListener("message", function(e) {
-      var d = e.data;
-      if (typeof d !== "string") return;
-      if (d.indexOf("authorization:") !== 0) return;
-
-      dbg("MESSAGE from: " + e.origin);
-      dbg("  data: " + d.substring(0, 80) + "…");
-
-      // If this message came from a different origin, re-post it from our own
-      if (e.origin !== window.location.origin && !relayed) {
-        relayed = true;
-        dbg("  → Re-posting from same origin…");
-        window.postMessage(d, window.location.origin);
-        return;
-      }
-
-      if (relayed) {
-        dbg("  → Same-origin relay delivered (origin now: " + e.origin + ")");
-      }
-    }, false);
-
-    dbg("Debug listener registered. Waiting for Decap CMS to load…");
-  </script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  <script>
-    dbg("Decap CMS script loaded. Checking window.CMS: " + (typeof window.CMS));
-    // Count message listeners to see if Decap registered one
-    dbg("Tip: if no Decap regex match or JS errors above, the backend may not be initializing.");
-  </script>
 </body>
 </html>

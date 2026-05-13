@@ -1,8 +1,10 @@
 /**
  * Cloudflare Worker: GitHub OAuth proxy for Decap CMS.
  *
- * Handles the OAuth dance so Decap CMS can authenticate with GitHub
- * without exposing client secrets in the browser.
+ * Implements the Decap CMS v3 two-step handshake protocol:
+ *   1. Callback sends "authorizing:github" to opener
+ *   2. Opener (Decap) echoes it back, confirming it's ready
+ *   3. Callback sends "authorization:github:success:{token}" to opener
  *
  * Required secrets (set via `wrangler secret put`):
  *   GITHUB_CLIENT_ID
@@ -22,11 +24,8 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
-    // CORS preflight for the /callback endpoint
     if (request.method === "OPTIONS") {
-      return new Response(null, {
-        headers: corsHeaders(),
-      });
+      return new Response(null, { headers: corsHeaders() });
     }
 
     if (url.pathname === "/auth") {
@@ -51,15 +50,13 @@ function corsHeaders(): Record<string, string> {
 
 function handleAuth(url: URL, env: Env): Response {
   const scope = url.searchParams.get("scope") || "repo,user";
-  // Preserve site_id so we can pass it through the OAuth flow
   const siteId = url.searchParams.get("site_id") || "";
-  const state = siteId; // Pass site_id as OAuth state so we get it back in the callback
 
   const params = new URLSearchParams({
     client_id: env.GITHUB_CLIENT_ID,
     scope,
     redirect_uri: `${url.origin}/callback`,
-    state,
+    state: siteId,
   });
 
   return Response.redirect(`${GITHUB_AUTH_URL}?${params}`, 302);
@@ -67,7 +64,6 @@ function handleAuth(url: URL, env: Env): Response {
 
 async function handleCallback(url: URL, env: Env): Promise<Response> {
   const code = url.searchParams.get("code");
-  const siteId = url.searchParams.get("state") || "";
 
   if (!code) {
     return new Response("Missing code parameter", { status: 400 });
@@ -91,18 +87,13 @@ async function handleCallback(url: URL, env: Env): Promise<Response> {
     | { error: string; access_token?: undefined };
 
   const isError = data.error !== undefined;
-  const content = isError
+  const authContent = isError
     ? `authorization:github:error:${JSON.stringify(data)}`
     : `authorization:github:success:${JSON.stringify({ token: data.access_token, provider: "github" })}`;
 
-  // Build the script that delivers the token to Decap CMS.
-  // Strategy 1: postMessage to opener (standard popup flow)
-  // Strategy 2: If opener is null (Safari strips it for cross-origin),
-  //             redirect back to the CMS with the message in a hash fragment
-  //             so Decap can read it on page load.
-  const siteOrigin = siteId ? `https://${siteId}` : "";
-  const cmsUrl = siteOrigin ? `${siteOrigin}/admin/` : "";
-
+  // Decap CMS v3 requires a two-step handshake:
+  // 1. Send "authorizing:github" and wait for the echo
+  // 2. Then send the actual auth result
   return new Response(
     `<!doctype html>
 <html>
@@ -111,24 +102,27 @@ async function handleCallback(url: URL, env: Env): Promise<Response> {
 <p id="status">Completing authentication…</p>
 <script>
 (function() {
-  var msg = ${JSON.stringify(content)};
+  var authContent = ${JSON.stringify(authContent)};
+  var provider = "github";
   var status = document.getElementById("status");
 
-  // Strategy 1: popup with window.opener
-  if (window.opener) {
-    window.opener.postMessage(msg, "*");
-    status.textContent = "Done — closing window.";
-    window.close();
+  if (!window.opener) {
+    status.textContent = "Error: no window.opener. Please close this window and try again.";
     return;
   }
 
-  // Strategy 2: not a popup (Safari may navigate the main window).
-  // Store the auth result and redirect back to the CMS.
-  try {
-    sessionStorage.setItem("decap-cms-auth", msg);
-  } catch(e) {}
+  // Step 1: Send the handshake message and wait for Decap to echo it back
+  window.addEventListener("message", function onMessage(e) {
+    if (e.data === "authorizing:" + provider) {
+      // Step 2: Decap echoed the handshake — now send the auth result
+      window.removeEventListener("message", onMessage);
+      window.opener.postMessage(authContent, e.origin);
+      setTimeout(function() { window.close(); }, 250);
+    }
+  });
 
-  ${cmsUrl ? `status.textContent = "Redirecting to CMS…"; window.location.replace(${JSON.stringify(cmsUrl)});` : `status.textContent = "Authentication complete but unable to return to CMS. Please close this tab and refresh the admin page.";`}
+  // Initiate the handshake
+  window.opener.postMessage("authorizing:" + provider, "*");
 })();
 </script>
 </body>
