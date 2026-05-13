@@ -58,23 +58,54 @@ const { Content } = await render(page);
   </section>
 
   <script>
-    // Auto-refresh webcam images every 60 seconds with cache-busting
+    // --- Webcam auto-refresh (bfcache-safe) ---
     const REFRESH_INTERVAL = 60_000;
-    const webcams = document.querySelectorAll("img.webcam");
+    let refreshTimer: ReturnType<typeof setInterval> | null = null;
 
     function refreshWebcams() {
       const cacheBuster = `_t=${Date.now()}`;
-      webcams.forEach((img) => {
+      document.querySelectorAll("img.webcam").forEach((img) => {
         const base = img.getAttribute("data-src");
         if (base) {
           const sep = base.includes("?") ? "&" : "?";
-          img.src = `${base}${sep}${cacheBuster}`;
+          (img as HTMLImageElement).src = `${base}${sep}${cacheBuster}`;
         }
       });
     }
 
-    if (webcams.length > 0) {
-      setInterval(refreshWebcams, REFRESH_INTERVAL);
+    function startRefresh() {
+      if (refreshTimer !== null) clearInterval(refreshTimer);
+      refreshWebcams();                              // immediate refresh on (re)start
+      refreshTimer = setInterval(refreshWebcams, REFRESH_INTERVAL);
     }
+
+    function stopRefresh() {
+      if (refreshTimer !== null) {
+        clearInterval(refreshTimer);
+        refreshTimer = null;
+      }
+    }
+
+    // Start on initial load
+    startRefresh();
+
+    // Safari bfcache: restart the timer when the page is restored
+    window.addEventListener("pageshow", (e) => {
+      if (e.persisted) startRefresh();
+    });
+
+    // Pause when the page is about to enter bfcache
+    window.addEventListener("pagehide", () => {
+      stopRefresh();
+    });
+
+    // --- Open external links in new tabs ---
+    document.querySelectorAll(".prose a[href]").forEach((a) => {
+      const href = a.getAttribute("href") || "";
+      if (href.startsWith("http") && !href.includes(window.location.hostname)) {
+        a.setAttribute("target", "_blank");
+        a.setAttribute("rel", "noopener noreferrer");
+      }
+    });
   </script>
 </BaseLayout>
