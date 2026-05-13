@@ -25,24 +25,56 @@ const { Content } = await render(page);
         </div>
       </div>
 
-      <!-- Webcam embeds — placeholder images, auto-refresh coming in Stage 4 -->
       <div>
         <h2 class="text-xl font-semibold text-primary mb-3">Chemainus Terminal Webcam</h2>
-        <p class="text-text mb-3">View current traffic at the Chemainus ferry terminal. The image refreshes automatically.</p>
+        <p class="text-text mb-3">View current traffic at the Chemainus ferry terminal. The image refreshes automatically every 60 seconds.</p>
         <div class="bg-surface border rounded-lg overflow-hidden mb-2">
-          <img src="https://ccimg.bcferries.com/cc/support/terminals/cam1_CHM.jpg" alt="Chemainus Terminal Webcam" class="w-full" loading="lazy">
+          <img
+            src="https://ccimg.bcferries.com/cc/support/terminals/cam1_CHM.jpg"
+            alt="Chemainus Terminal Webcam"
+            class="webcam w-full"
+            data-src="https://ccimg.bcferries.com/cc/support/terminals/cam1_CHM.jpg"
+          />
         </div>
+        <p class="text-xs text-text-muted mb-1">Image source: BC Ferries</p>
         <a href="https://www.bcferries.com/current-conditions/CHM-THT" target="_blank" rel="noopener noreferrer" class="text-accent text-sm hover:underline">View on BC Ferries site &rarr;</a>
       </div>
 
       <div>
         <h2 class="text-xl font-semibold text-primary mb-3">Thetis Island Ferry Cam</h2>
-        <p class="text-text mb-3">This camera shows the Thetis Island ferry lineup.</p>
+        <p class="text-text mb-3">This camera shows the Thetis Island ferry lineup. The image refreshes automatically every 60 seconds.</p>
         <div class="bg-surface border rounded-lg overflow-hidden mb-2">
-          <img src="https://www.thetisisland.net/ferry/camera/cars.jpg" alt="Thetis Island Ferry Cam" class="w-full" loading="lazy">
+          <img
+            src="https://www.thetisisland.net/ferry/camera/cars.jpg"
+            alt="Thetis Island Ferry Cam"
+            class="webcam w-full"
+            data-src="https://www.thetisisland.net/ferry/camera/cars.jpg"
+          />
         </div>
+        <p class="text-xs text-text-muted mb-1">Image source: Thetis Island community camera</p>
         <a href="https://www.thetisisland.net/ferry/index.html" target="_blank" rel="noopener noreferrer" class="text-accent text-sm hover:underline">View on Thetis Island website &rarr;</a>
       </div>
     </div>
   </section>
+
+  <script>
+    // Auto-refresh webcam images every 60 seconds with cache-busting
+    const REFRESH_INTERVAL = 60_000;
+    const webcams = document.querySelectorAll("img.webcam");
+
+    function refreshWebcams() {
+      const cacheBuster = `_t=${Date.now()}`;
+      webcams.forEach((img) => {
+        const base = img.getAttribute("data-src");
+        if (base) {
+          const sep = base.includes("?") ? "&" : "?";
+          img.src = `${base}${sep}${cacheBuster}`;
+        }
+      });
+    }
+
+    if (webcams.length > 0) {
+      setInterval(refreshWebcams, REFRESH_INTERVAL);
+    }
+  </script>
 </BaseLayout>
