@@ -4,6 +4,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const page = await getEntry("pages", "membership");
 const { Content } = await render(page);
+
+// Formspree endpoint — replace with actual form ID
+const formAction = "https://formspree.io/f/xykoayoo";
 ---
 
 <BaseLayout title={page.data.title} description={page.data.description}>
@@ -17,11 +20,99 @@ const { Content } = await render(page);
 
     <div class="mt-10">
       <h2 class="text-xl font-semibold text-primary mb-3">Become a Member</h2>
-      <!-- Membership form — real form handler coming in Stage 4 -->
-      <div class="bg-surface border-2 border-dashed border-primary/20 rounded-lg p-10 text-center text-text-muted">
-        <p class="text-lg font-medium mb-2">Online membership form coming soon</p>
-        <p class="text-sm">In the meantime, please contact <a href="mailto:info@thetisisland.net" class="text-accent hover:underline">info@thetisisland.net</a> to apply for membership.</p>
-      </div>
+      <p class="text-text mb-6">Fill out the form below to start your membership application. Submitting this form is the first step — TIRRA will follow up with dues information and next steps.</p>
+
+      <form
+        action={formAction}
+        method="POST"
+        class="space-y-6 bg-surface border border-primary/10 rounded-lg p-6 sm:p-8"
+      >
+        {/* Formspree redirect after submission */}
+        <input type="hidden" name="_next" value="https://thetisisland.john-shillington.workers.dev/thank-you/" />
+        {/* Honeypot spam field */}
+        <input type="text" name="_gotcha" style="display:none" />
+        {/* Form subject line for the notification email */}
+        <input type="hidden" name="_subject" value="New Membership Application — thetisisland.net" />
+
+        <div>
+          <label for="name" class="block text-sm font-medium text-text mb-1">
+            Full Name <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            class="w-full rounded-md border border-primary/20 px-3 py-2 text-text focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+            placeholder="Jane Doe"
+          />
+        </div>
+
+        <div>
+          <label for="address" class="block text-sm font-medium text-text mb-1">
+            Mailing Address <span class="text-red-500">*</span>
+          </label>
+          <textarea
+            id="address"
+            name="address"
+            required
+            rows="3"
+            class="w-full rounded-md border border-primary/20 px-3 py-2 text-text focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+            placeholder="123 Island Road&#10;Thetis Island, BC V0R 2Y0"
+          ></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div>
+            <label for="email" class="block text-sm font-medium text-text mb-1">
+              Email <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="w-full rounded-md border border-primary/20 px-3 py-2 text-text focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+              placeholder="jane@example.com"
+            />
+          </div>
+
+          <div>
+            <label for="phone" class="block text-sm font-medium text-text mb-1">
+              Phone <span class="text-text-muted font-normal">(optional)</span>
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              class="w-full rounded-md border border-primary/20 px-3 py-2 text-text focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+              placeholder="250-555-1234"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="notes" class="block text-sm font-medium text-text mb-1">
+            Notes <span class="text-text-muted font-normal">(optional)</span>
+          </label>
+          <textarea
+            id="notes"
+            name="notes"
+            rows="3"
+            class="w-full rounded-md border border-primary/20 px-3 py-2 text-text focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+            placeholder="Anything you'd like TIRRA to know (e.g., seasonal vs. year-round resident, interests, etc.)"
+          ></textarea>
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            class="bg-primary text-white font-medium px-6 py-3 rounded-md hover:bg-primary-dark transition-colors cursor-pointer"
+          >
+            Submit Application
+          </button>
+        </div>
+      </form>
     </div>
   </section>
 </BaseLayout>
