@@ -23,16 +23,11 @@ const formAction = "https://formspree.io/f/xykoayoo";
       <p class="text-text mb-6">Fill out the form below to start your membership application. Submitting this form is the first step — TIRRA will follow up with dues information and next steps.</p>
 
       <form
-        action={formAction}
-        method="POST"
+        id="membership-form"
         class="space-y-6 bg-surface border border-primary/10 rounded-lg p-6 sm:p-8"
       >
-        {/* Formspree redirect after submission */}
-        <input type="hidden" name="_next" value="https://thetisisland.john-shillington.workers.dev/thank-you/" />
         {/* Honeypot spam field */}
         <input type="text" name="_gotcha" style="display:none" />
-        {/* Form subject line for the notification email */}
-        <input type="hidden" name="_subject" value="New Membership Application — thetisisland.net" />
 
         <div>
           <label for="name" class="block text-sm font-medium text-text mb-1">
@@ -115,4 +110,33 @@ const formAction = "https://formspree.io/f/xykoayoo";
       </form>
     </div>
   </section>
+
+  <script define:vars={{ formAction }}>
+    const form = document.getElementById("membership-form");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector("button[type='submit']");
+      btn.disabled = true;
+      btn.textContent = "Submitting…";
+
+      try {
+        const data = new FormData(form);
+        data.append("_subject", "New Membership Application — thetisisland.net");
+        const res = await fetch(formAction, {
+          method: "POST",
+          body: data,
+          headers: { Accept: "application/json" },
+        });
+        if (res.ok) {
+          window.location.href = "/thank-you/";
+        } else {
+          throw new Error("Form submission failed");
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = "Submit Application";
+        alert("Something went wrong. Please try again, or email info@thetisisland.net directly.");
+      }
+    });
+  </script>
 </BaseLayout>
