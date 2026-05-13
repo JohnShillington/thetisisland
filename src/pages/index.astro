@@ -1,5 +1,9 @@
 ---
+import { getEntry, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const page = await getEntry("pages", "home");
+const { Content } = await render(page);
 
 const cards = [
   { title: "Ferry Info", href: "/ferry", text: "Check the BC Ferries schedule, webcams and vessel tracking." },
@@ -32,8 +36,9 @@ const cards = [
   </section>
 
   <section class="mx-auto max-w-4xl px-4 pb-12">
-    <h2 class="text-2xl font-bold text-primary mb-4">About TIRRA</h2>
-    <p class="text-text mb-3">The Thetis Island Residents and Ratepayers Association (TIRRA) is a volunteer-run organization that advocates for residents, coordinates essential services and fosters a strong island community. From managing solid waste and trails to supporting local initiatives, TIRRA plays a vital role in daily life on Thetis.</p>
+    <div class="prose max-w-none text-text">
+      <Content />
+    </div>
     <a href="/about" class="text-accent font-medium hover:underline">Learn more about TIRRA &rarr;</a>
   </section>
 </BaseLayout>

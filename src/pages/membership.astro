@@ -1,26 +1,26 @@
 ---
+import { getEntry, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const page = await getEntry("pages", "membership");
+const { Content } = await render(page);
 ---
 
-<BaseLayout title="Membership" description="Join the Thetis Island Residents and Ratepayers Association.">
+<BaseLayout title={page.data.title} description={page.data.description}>
   <section class="mx-auto max-w-4xl px-4 py-12">
-    <h1 class="text-3xl font-bold text-primary mb-4">Membership</h1>
+    <h1 class="text-3xl font-bold text-primary mb-4">{page.data.title}</h1>
     <p class="text-text-muted mb-10">Join the Thetis Island Residents &amp; Ratepayers Association and help shape our community.</p>
 
-    <div class="space-y-10">
-      <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">Why Join?</h2>
-        <p class="text-text mb-3">Membership in TIRRA gives island residents and property owners a voice in community decisions and ensures essential services continue to operate. Your dues support programs like the recycle yard, trails and cemetery. Members are eligible to vote at the annual general meeting and to serve on the Board or committees.</p>
-        <p class="text-text">We welcome both year-round and seasonal residents to join.</p>
-      </div>
+    <div class="prose max-w-none text-text">
+      <Content />
+    </div>
 
-      <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">Become a Member</h2>
-        <!-- Membership form — real form handler coming in Stage 4 -->
-        <div class="bg-surface border-2 border-dashed border-primary/20 rounded-lg p-10 text-center text-text-muted">
-          <p class="text-lg font-medium mb-2">Online membership form coming soon</p>
-          <p class="text-sm">In the meantime, please contact <a href="mailto:info@thetisisland.net" class="text-accent hover:underline">info@thetisisland.net</a> to apply for membership.</p>
-        </div>
+    <div class="mt-10">
+      <h2 class="text-xl font-semibold text-primary mb-3">Become a Member</h2>
+      <!-- Membership form — real form handler coming in Stage 4 -->
+      <div class="bg-surface border-2 border-dashed border-primary/20 rounded-lg p-10 text-center text-text-muted">
+        <p class="text-lg font-medium mb-2">Online membership form coming soon</p>
+        <p class="text-sm">In the meantime, please contact <a href="mailto:info@thetisisland.net" class="text-accent hover:underline">info@thetisisland.net</a> to apply for membership.</p>
       </div>
     </div>
   </section>

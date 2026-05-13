@@ -1,40 +1,18 @@
 ---
+import { getEntry, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const page = await getEntry("pages", "about");
+const { Content } = await render(page);
 ---
 
-<BaseLayout title="About TIRRA" description="Mission, history and membership of the Thetis Island Residents and Ratepayers Association.">
+<BaseLayout title={page.data.title} description={page.data.description}>
   <section class="mx-auto max-w-4xl px-4 py-12">
-    <h1 class="text-3xl font-bold text-primary mb-4">About TIRRA</h1>
+    <h1 class="text-3xl font-bold text-primary mb-4">{page.data.title}</h1>
     <p class="text-text-muted mb-10">The Thetis Island Residents and Ratepayers Association.</p>
 
-    <div class="space-y-10">
-      <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">Mission &amp; Purpose</h2>
-        <p class="text-text mb-3">TIRRA advocates on behalf of island residents and property owners, working with regional and provincial partners to address issues affecting our community. We manage and coordinate key services, promote community welfare and support local initiatives that enhance life on Thetis Island.</p>
-        <p class="text-text">As a volunteer-run organization, our success depends on the active participation of our members. We encourage all residents and property owners to become members and join us in shaping the future of our island.</p>
-      </div>
-
-      <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">Membership</h2>
-        <p class="text-text mb-3">Membership in TIRRA is open to all Thetis Island residents and ratepayers. Joining gives you a voice in community decisions, supports essential services and helps fund local projects. Annual dues are modest and go directly towards operating and maintaining services such as the recycle yard, trails and cemetery.</p>
-        <!-- Membership form link — real form coming in Stage 4 -->
-        <p class="text-text">To become a member, please visit our <a href="/membership" class="text-accent hover:underline">Membership page</a> to apply. Paper forms remain available at community meetings on request.</p>
-      </div>
-
-      <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">Board &amp; Governance</h2>
-        <p class="text-text">TIRRA is governed by a Board of Directors elected by members at the annual general meeting. Directors volunteer their time to oversee services, manage finances and represent community interests. Board positions include President, Vice President, Secretary, Treasurer and committee chairs. A current list of directors and contact information will be posted here following each AGM.</p>
-      </div>
-
-      <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">History</h2>
-        <p class="text-text">Thetis Island residents have organized to support community services for decades. TIRRA was formally incorporated to provide a unified voice for residents and to manage responsibilities such as the solid waste program and trails. We honour the work of islanders like Veronica Shelford, who created the original Thetis website, and many other volunteers whose dedication has shaped our community.</p>
-      </div>
-
-      <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">Documents &amp; Reports</h2>
-        <p class="text-text">Copies of TIRRA's constitution, bylaws, annual reports and meeting minutes will be made available here for members to review. Please check back soon or <a href="/contact" class="text-accent hover:underline">contact us</a> to request a copy.</p>
-      </div>
+    <div class="prose max-w-none text-text">
+      <Content />
     </div>
   </section>
 </BaseLayout>

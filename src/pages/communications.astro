@@ -1,34 +1,18 @@
 ---
+import { getEntry, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const page = await getEntry("pages", "communications");
+const { Content } = await render(page);
 ---
 
-<BaseLayout title="Communications" description="e-Spokes, Phone Book, Welcome Package and community blog links.">
+<BaseLayout title={page.data.title} description={page.data.description}>
   <section class="mx-auto max-w-4xl px-4 py-12">
     <h1 class="text-3xl font-bold text-primary mb-4">Community Communications</h1>
     <p class="text-text-muted mb-10">Stay informed and connected on Thetis Island.</p>
 
-    <div class="space-y-10">
-      <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">e-Spokes Email List</h2>
-        <p class="text-text mb-3">e-Spokes is the island's moderated email bulletin board. It's used to share community notices, announcements, lost &amp; found items and service information. Subscribing is free, and your email will not be shared publicly.</p>
-        <p class="text-text">To subscribe, send an email to <strong>espokes@thetisisland.net</strong> with your name and a request to join. Once approved, you'll begin receiving messages. Posts should be concise and community-relevant; commercial advertising and spam are not permitted.</p>
-      </div>
-
-      <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">Thetis Island Phone Book</h2>
-        <p class="text-text mb-3">The Thetis Island Phone Book is compiled by community volunteers and distributed as a printed booklet. It contains landline and cell numbers for residents, as well as emergency contacts and other useful information. Due to privacy considerations, the phone book is not available online.</p>
-        <p class="text-text">If you are new to Thetis or need a copy, please contact TIRRA through our <a href="/contact" class="text-accent hover:underline">contact page</a> or watch for announcements about new editions.</p>
-      </div>
-
-      <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">Welcome Package</h2>
-        <p class="text-text">New to Thetis Island? TIRRA provides a Welcome Package with essential information for new residents including local contacts, services, and community guidelines. Contact TIRRA through our <a href="/contact" class="text-accent hover:underline">contact page</a> to request one.</p>
-      </div>
-
-      <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">Community Blog</h2>
-        <p class="text-text">The Thetis Island Blog hosts timely articles, event announcements and classifieds contributed by community members. Visit <a href="https://thetisposts.ca" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">thetisposts.ca</a> to read the latest posts or share your news.</p>
-      </div>
+    <div class="prose max-w-none text-text">
+      <Content />
     </div>
   </section>
 </BaseLayout>

@@ -1,0 +1,11 @@
+name = "thetisisland-auth"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+[vars]
+# These are non-secret defaults; actual values come from `wrangler secret put`
+ALLOWED_DOMAINS = "thetisisland.net,thetisisland.pages.dev"
+
+# Set these secrets via: wrangler secret put <NAME>
+# GITHUB_CLIENT_ID
+# GITHUB_CLIENT_SECRET

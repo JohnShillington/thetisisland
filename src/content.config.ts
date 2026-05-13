@@ -11,6 +11,7 @@ const organizations = defineCollection({
     category: z.enum(["organization", "club", "social-service", "social-exercise"]),
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
+    editor_notes: z.string().optional(),
   }),
 });
 
@@ -20,7 +21,17 @@ const services = defineCollection({
     name: z.string(),
     description: z.string(),
     featured: z.boolean().default(false),
+    editor_notes: z.string().optional(),
   }),
 });
 
-export const collections = { organizations, services };
+const pages = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/pages" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    editor_notes: z.string().optional(),
+  }),
+});
+
+export const collections = { organizations, services, pages };

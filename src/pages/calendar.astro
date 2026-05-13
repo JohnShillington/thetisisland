@@ -1,10 +1,14 @@
 ---
+import { getEntry, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const page = await getEntry("pages", "calendar");
+const { Content } = await render(page);
 ---
 
-<BaseLayout title="Calendar" description="Combined community calendar for Thetis Island events.">
+<BaseLayout title={page.data.title} description={page.data.description}>
   <section class="mx-auto max-w-4xl px-4 py-12">
-    <h1 class="text-3xl font-bold text-primary mb-4">Community Calendar</h1>
+    <h1 class="text-3xl font-bold text-primary mb-4">{page.data.title}</h1>
     <p class="text-text-muted mb-6">A consolidated view of island events, maintained by our community. Each group maintains its own schedule; updates and changes appear here automatically.</p>
 
     <!-- Google Calendar embed — placeholder for Stage 4 -->
@@ -13,17 +17,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <p class="text-sm">This will display events from participating island organizations in a single view.</p>
     </div>
 
-    <div class="space-y-8">
-      <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">Submit an Event</h2>
-        <p class="text-text mb-3">If your group doesn't have its own calendar, you can submit events to be added to the community calendar. Contact <strong>ThetisIslandCalendar@gmail.com</strong> with your event details.</p>
-        <!-- Real submission form coming in Stage 4 -->
-      </div>
-
-      <div>
-        <h2 class="text-xl font-semibold text-primary mb-3">Add Your Organization's Calendar</h2>
-        <p class="text-text">If your organization maintains a Google Calendar and would like it included in the combined community view, please contact <strong>ThetisIslandCalendar@gmail.com</strong> for instructions on sharing your calendar with the Thetis Island aggregator account.</p>
-      </div>
+    <div class="prose max-w-none text-text">
+      <Content />
     </div>
   </section>
 </BaseLayout>
