@@ -2,7 +2,7 @@ backend:
   name: github
   repo: JohnShillington/thetisisland
   branch: main
-  base_url: https://thetisisland-auth.workers.dev
+  base_url: https://thetisisland-auth.john-shillington.workers.dev
 
 media_folder: public/images
 public_folder: /images

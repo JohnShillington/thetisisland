@@ -4,7 +4,7 @@ compatibility_date = "2024-12-01"
 
 [vars]
 # These are non-secret defaults; actual values come from `wrangler secret put`
-ALLOWED_DOMAINS = "thetisisland.net,thetisisland.pages.dev"
+ALLOWED_DOMAINS = "thetisisland.net,thetisisland.john-shillington.workers.dev"
 
 # Set these secrets via: wrangler secret put <NAME>
 # GITHUB_CLIENT_ID
