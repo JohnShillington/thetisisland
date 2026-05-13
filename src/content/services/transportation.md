@@ -2,6 +2,9 @@
 name: Roads & Transportation
 description: Liaison with the Ministry of Transportation on road issues.
 featured: false
+editor_notes: >-
+  VERIFY: "TIRRA serves as a liaison between residents and the Ministry of Transportation" — still accurate?
+  VERIFY: "bus shelters and community transit options" — do these exist or is this aspirational?
 ---
 
 While road maintenance on Thetis is under provincial jurisdiction, TIRRA serves as a liaison between residents and the Ministry of Transportation. If you notice road issues (potholes, drainage problems, signage), report them through TIRRA so we can advocate for repairs.

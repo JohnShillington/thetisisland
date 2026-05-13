@@ -6,4 +6,6 @@ url: /about
 category: organization
 tags: ["official"]
 featured: true
+editor_notes: >-
+  VERIFY: Tagline — does this match TIRRA's actual mission statement?
 ---

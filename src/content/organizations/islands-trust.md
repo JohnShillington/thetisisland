@@ -5,4 +5,6 @@ url: https://islandstrust.bc.ca/islands/local-trust-areas/thetis
 category: organization
 tags: ["official"]
 featured: false
+editor_notes: >-
+  VERIFY: URL path islandstrust.bc.ca/islands/local-trust-areas/thetis — still valid?
 ---

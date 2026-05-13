@@ -4,4 +4,6 @@ tagline: Supporting emergency radio communications and amateur radio on the isla
 category: club
 tags: ["emergency-related"]
 featured: false
+editor_notes: >-
+  VERIFY: Tagline "Supporting emergency radio communications and amateur radio" — accurate?
 ---

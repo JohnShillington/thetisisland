@@ -5,4 +5,6 @@ url: https://thetisislandcommunityfund.ca
 category: organization
 tags: []
 featured: false
+editor_notes: >-
+  VERIFY: URL thetisislandcommunityfund.ca — still active?
 ---
