@@ -4,6 +4,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const page = await getEntry("pages", "calendar");
 const { Content } = await render(page);
+
+// Formspree endpoint for event submissions (same account as membership form)
+const eventFormAction = "https://formspree.io/f/xykoayoo";
 ---
 
 <BaseLayout title={page.data.title} description={page.data.description}>
@@ -11,14 +14,163 @@ const { Content } = await render(page);
     <h1 class="text-3xl font-bold text-primary mb-4">{page.data.title}</h1>
     <p class="text-text-muted mb-6">A consolidated view of island events, maintained by our community. Each group maintains its own schedule; updates and changes appear here automatically.</p>
 
-    <!-- Google Calendar embed — placeholder for Stage 4 -->
-    <div class="bg-surface border-2 border-dashed border-primary/20 rounded-lg p-10 text-center text-text-muted mb-8">
-      <p class="text-lg font-medium mb-2">Combined calendar embed coming soon</p>
-      <p class="text-sm">This will display events from participating island organizations in a single view.</p>
+    <!-- Google Calendar embed — four combined calendar sources -->
+    <div class="overflow-x-auto mb-8" style="-webkit-overflow-scrolling: touch;">
+      <iframe
+        src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FVancouver&showPrint=0&src=dGhldGlzaXNsYW5kY2FsZW5kYXJAZ21haWwuY29t&src=MzNkYjEzZmIyM2JmNjZlYWNkYmIxYjIwODEwNmQ0NjA1YmNjZWJkODk5OTFmM2RiZjE5ZTgxODBkNTE5OWNjOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=M2EyZDkxNmU0NTA1NTBhM2FmYjI2YTA4MWY1M2M0MWQ5MzdiMzE3ZDgzMDMxNDkyNTZlNGYzYjA5MDM5NTM1ZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YWIzMzI4MjZlNjBiYWFlMjUzZjE0YmYxNzJjNWU2ZWJjODc5NjI3NzgyNTEzZDJhMjNjOTVlMWE5NTI2Zjc3OEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23039be5&color=%238e24aa&color=%239e69af&color=%23795548"
+        class="w-full border-0"
+        style="min-height: 600px;"
+        loading="lazy"
+        title="Thetis Island Community Calendar"
+      ></iframe>
     </div>
 
-    <div class="prose max-w-none text-text">
+    <div class="prose max-w-none text-text mb-10">
       <Content />
     </div>
+
+    <!-- Submit an Event form -->
+    <div class="mt-10">
+      <h2 class="text-xl font-semibold text-primary mb-3">Submit an Event</h2>
+      <p class="text-text mb-6">If your group doesn't have its own Google Calendar, use this form to submit an event for review. It will be added to the community calendar once approved.</p>
+
+      <form
+        id="event-form"
+        class="space-y-6 bg-surface border border-primary/10 rounded-lg p-6 sm:p-8"
+      >
+        <input type="text" name="_gotcha" style="display:none" />
+
+        <div>
+          <label for="event-title" class="block text-sm font-medium text-text mb-1">
+            Event Title <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="event-title"
+            name="event_title"
+            required
+            class="w-full rounded-md border border-primary/20 px-3 py-2 text-text focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+            placeholder="e.g. Community Potluck"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div>
+            <label for="event-date" class="block text-sm font-medium text-text mb-1">
+              Date <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="date"
+              id="event-date"
+              name="event_date"
+              required
+              class="w-full rounded-md border border-primary/20 px-3 py-2 text-text focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+            />
+          </div>
+          <div>
+            <label for="start-time" class="block text-sm font-medium text-text mb-1">
+              Start Time <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="time"
+              id="start-time"
+              name="start_time"
+              required
+              class="w-full rounded-md border border-primary/20 px-3 py-2 text-text focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+            />
+          </div>
+          <div>
+            <label for="end-time" class="block text-sm font-medium text-text mb-1">
+              End Time <span class="text-text-muted font-normal">(optional)</span>
+            </label>
+            <input
+              type="time"
+              id="end-time"
+              name="end_time"
+              class="w-full rounded-md border border-primary/20 px-3 py-2 text-text focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="event-location" class="block text-sm font-medium text-text mb-1">
+            Location <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="event-location"
+            name="location"
+            required
+            class="w-full rounded-md border border-primary/20 px-3 py-2 text-text focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+            placeholder="e.g. Forbes Hall"
+          />
+        </div>
+
+        <div>
+          <label for="event-description" class="block text-sm font-medium text-text mb-1">
+            Description <span class="text-text-muted font-normal">(optional)</span>
+          </label>
+          <textarea
+            id="event-description"
+            name="description"
+            rows="3"
+            class="w-full rounded-md border border-primary/20 px-3 py-2 text-text focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+            placeholder="Details about the event"
+          ></textarea>
+        </div>
+
+        <div>
+          <label for="event-contact" class="block text-sm font-medium text-text mb-1">
+            Your Email <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="email"
+            id="event-contact"
+            name="email"
+            required
+            class="w-full rounded-md border border-primary/20 px-3 py-2 text-text focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+            placeholder="you@example.com"
+          />
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            class="bg-primary text-white font-medium px-6 py-3 rounded-md hover:bg-primary-dark transition-colors cursor-pointer"
+          >
+            Submit Event
+          </button>
+        </div>
+      </form>
+    </div>
   </section>
+
+  <script define:vars={{ eventFormAction }}>
+    const form = document.getElementById("event-form");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector("button[type='submit']");
+      btn.disabled = true;
+      btn.textContent = "Submitting…";
+
+      try {
+        const data = new FormData(form);
+        data.append("_subject", "New Event Submission — thetisisland.net");
+        const res = await fetch(eventFormAction, {
+          method: "POST",
+          body: data,
+          headers: { Accept: "application/json" },
+        });
+        if (res.ok) {
+          window.location.href = "/thank-you/";
+        } else {
+          throw new Error("Form submission failed");
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = "Submit Event";
+        alert("Something went wrong. Please try again, or email ThetisIslandCalendar@gmail.com directly.");
+      }
+    });
+  </script>
 </BaseLayout>
