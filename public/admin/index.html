@@ -7,6 +7,17 @@
 </head>
 <body>
   <script>
+    // DEBUG: Log ALL incoming postMessage events so we can see what arrives
+    window.addEventListener("message", function(e) {
+      if (typeof e.data === "string" && e.data.indexOf("authorization:") === 0) {
+        var el = document.createElement("div");
+        el.style.cssText = "position:fixed;top:0;left:0;right:0;background:#0a0;color:#fff;padding:12px;z-index:99999;font-family:monospace;font-size:13px;white-space:pre-wrap";
+        el.textContent = "MESSAGE RECEIVED!\nOrigin: " + e.origin + "\nData: " + e.data.substring(0, 80) + "…";
+        document.body.appendChild(el);
+        console.log("AUTH MESSAGE RECEIVED", e.origin, e.data);
+      }
+    }, false);
+
     // Fallback for Safari: if the OAuth callback couldn't use postMessage
     // (window.opener was null), it stores the auth result in sessionStorage
     // and redirects here. Replay it as a message event so Decap picks it up.
