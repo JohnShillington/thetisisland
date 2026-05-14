@@ -11,15 +11,94 @@ const { Content } = await render(page);
     <h1 class="text-3xl font-bold text-primary mb-4">{page.data.title}</h1>
     <p class="text-text-muted mb-10">What to do and where to find help when you need it.</p>
 
-    <!-- Fire hazard rating — placeholder for Stage 5 auto-scraper -->
-    <div class="bg-accent text-white p-6 rounded-lg mb-10">
+    <!-- Fire hazard rating banner — populated via client-side fetch -->
+    <div id="fire-banner" class="p-6 rounded-lg mb-10 transition-colors duration-300 bg-primary/10 text-text">
       <h2 class="text-xl font-semibold mb-2">Fire Danger Today</h2>
-      <p class="mb-3">Always check the official rating before burning or using outdoor flames.</p>
-      <a href="https://www.thetisislandfire.ca/burn-table.html" target="_blank" rel="noopener noreferrer" class="font-medium underline">See today's fire hazard rating on the TIVFD website &rarr;</a>
+
+      <!-- Default fallback (shown until JS loads or on error) -->
+      <div id="fire-fallback">
+        <p class="mb-3">Always check the official rating before burning or using outdoor flames.</p>
+        <a
+          href="https://www.thetisislandfire.ca/burn-table.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-medium text-accent hover:underline"
+        >See current fire hazard rating at thetisislandfire.ca &rarr;</a>
+      </div>
+
+      <!-- Populated by JS when rating is available -->
+      <div id="fire-rating" class="hidden">
+        <p class="text-3xl font-bold mb-1" id="fire-level"></p>
+        <p class="text-sm mb-3" id="fire-description"></p>
+        <a
+          href="https://www.thetisislandfire.ca/burn-table.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm font-medium underline opacity-80 hover:opacity-100"
+        >Burn restrictions &amp; details at thetisislandfire.ca &rarr;</a>
+      </div>
     </div>
 
     <div class="prose max-w-none text-text">
       <Content />
     </div>
   </section>
+
+  <script>
+    const RATING_URL = "https://thetisisland-fire-hazard.john-shillington.workers.dev/rating";
+
+    const RATING_CONFIG: Record<string, { bg: string; text: string; description: string }> = {
+      LOW: {
+        bg: "bg-green-100 text-green-900",
+        text: "LOW",
+        description: "Low fire risk. Fires may start easily but there will be minimal involvement of deeper fuel layers.",
+      },
+      MODERATE: {
+        bg: "bg-yellow-100 text-yellow-900",
+        text: "MODERATE",
+        description: "Forest fuels are drying and there is an increased risk of surface fires starting.",
+      },
+      HIGH: {
+        bg: "bg-orange-100 text-orange-900",
+        text: "HIGH",
+        description: "Forest fuels are very dry and the fire risk is serious. Extreme caution required.",
+      },
+      EXTREME: {
+        bg: "bg-red-100 text-red-900",
+        text: "EXTREME",
+        description: "Extremely dry conditions. New fires will start easily and spread rapidly. No open burning.",
+      },
+    };
+
+    async function loadRating() {
+      try {
+        const res = await fetch(RATING_URL);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        if (data.stale || !data.rating) return; // Keep fallback visible
+
+        const config = RATING_CONFIG[data.rating];
+        if (!config) return;
+
+        const banner = document.getElementById("fire-banner")!;
+        const fallback = document.getElementById("fire-fallback")!;
+        const ratingDiv = document.getElementById("fire-rating")!;
+        const levelEl = document.getElementById("fire-level")!;
+        const descEl = document.getElementById("fire-description")!;
+
+        // Apply rating-specific styling
+        banner.className = `p-6 rounded-lg mb-10 transition-colors duration-300 ${config.bg}`;
+        levelEl.textContent = config.text;
+        descEl.textContent = config.description;
+
+        fallback.classList.add("hidden");
+        ratingDiv.classList.remove("hidden");
+      } catch {
+        // Silently fall back to the default link
+      }
+    }
+
+    loadRating();
+  </script>
 </BaseLayout>

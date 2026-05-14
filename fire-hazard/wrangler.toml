@@ -1,0 +1,16 @@
+name = "thetisisland-fire-hazard"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+# Run every hour
+[triggers]
+crons = ["0 * * * *"]
+
+# KV namespace for storing the scraped rating
+[[kv_namespaces]]
+binding = "FIRE_KV"
+id = "PLACEHOLDER_KV_ID"
+
+[vars]
+# Comma-separated list of allowed origins for CORS
+ALLOWED_ORIGINS = "https://thetisisland.net,https://thetisisland.john-shillington.workers.dev"
