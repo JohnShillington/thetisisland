@@ -9,7 +9,7 @@ crons = ["0 * * * *"]
 # KV namespace for storing the scraped rating
 [[kv_namespaces]]
 binding = "FIRE_KV"
-id = "PLACEHOLDER_KV_ID"
+id = "543471d2a561419b8b507247d7c6aeda"
 
 [vars]
 # Comma-separated list of allowed origins for CORS
