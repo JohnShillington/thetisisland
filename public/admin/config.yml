@@ -105,3 +105,62 @@ collections:
         required: false
         hint: "Internal notes for editors — verification flags, questions, reminders. This field is never shown on the public site."
       - { name: body, label: Content, widget: markdown, hint: "Page content in Markdown. Use ## for section headings." }
+
+  # ──────────────────────────────────────────────
+  # Ferry Schedule (single data file)
+  # ──────────────────────────────────────────────
+  - name: ferry-schedule
+    label: Ferry Schedule
+    files:
+      - name: schedule
+        label: Ferry Schedule
+        file: src/data/ferry-schedule.yaml
+        fields:
+          - { name: effective_date, label: Effective Date, widget: string, hint: "e.g. January 2, 2025" }
+          - name: saturday_thursday
+            label: "Saturday–Thursday Sailings"
+            widget: list
+            label_singular: Sailing
+            hint: "Each sailing is one trip. Sailings alternate direction (east then west). Leave a time blank if the ferry skips that terminal."
+            fields:
+              - { name: thetis, label: Thetis, widget: string, required: false, hint: "Time at Thetis (e.g. 5:45 AM), or leave blank if skipped." }
+              - { name: penelakut, label: Penelakut, widget: string, required: false, hint: "Time at Penelakut, or leave blank if skipped." }
+              - { name: chemainus, label: Chemainus, widget: string, required: false, hint: "Time at Chemainus, or leave blank if skipped." }
+              - name: flag
+                label: Flag
+                widget: select
+                required: false
+                options:
+                  - { label: "(none)", value: "" }
+                  - { label: Probable DC, value: probable-dc }
+                  - { label: Possible DC, value: possible-dc }
+                  - { label: Arrival Only, value: arrival-only }
+          - name: friday
+            label: "Friday Sailings"
+            widget: list
+            label_singular: Sailing
+            hint: "Each sailing is one trip. Sailings alternate direction (east then west). Leave a time blank if the ferry skips that terminal."
+            fields:
+              - { name: thetis, label: Thetis, widget: string, required: false, hint: "Time at Thetis (e.g. 5:45 AM), or leave blank if skipped." }
+              - { name: penelakut, label: Penelakut, widget: string, required: false, hint: "Time at Penelakut, or leave blank if skipped." }
+              - { name: chemainus, label: Chemainus, widget: string, required: false, hint: "Time at Chemainus, or leave blank if skipped." }
+              - name: flag
+                label: Flag
+                widget: select
+                required: false
+                options:
+                  - { label: "(none)", value: "" }
+                  - { label: Probable DC, value: probable-dc }
+                  - { label: Possible DC, value: possible-dc }
+                  - { label: Arrival Only, value: arrival-only }
+          - name: legend
+            label: Legend
+            widget: object
+            fields:
+              - { name: probable-dc, label: Probable DC Description, widget: string }
+              - { name: possible-dc, label: Possible DC Description, widget: string }
+              - { name: arrival-only, label: Arrival Only Description, widget: string }
+          - name: notes
+            label: Notes
+            widget: list
+            field: { name: note, label: Note, widget: string }

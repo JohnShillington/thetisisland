@@ -2,7 +2,7 @@
 import { getEntry, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SnakeSchedule from "../components/SnakeSchedule.astro";
-import schedule from "../data/ferry-schedule.json";
+import schedule from "../data/ferry-schedule.yaml";
 
 const page = await getEntry("pages", "ferry");
 const { Content } = await render(page);
