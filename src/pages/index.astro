@@ -16,11 +16,18 @@ const cards = [
 ---
 
 <BaseLayout title="Home">
-  <section class="bg-primary/80 text-white py-20 text-center">
-    <div class="mx-auto max-w-3xl px-4">
-      <h1 class="text-3xl sm:text-4xl font-bold mb-4">Welcome to Thetis Island</h1>
-      <p class="text-lg opacity-90">Your gateway to community services, resources and visitor information for our beautiful Gulf Island.</p>
+  <section class="relative overflow-hidden">
+    <img
+      src="/images/hero-sunset.jpg"
+      alt="Sunset over the water near Thetis Island"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60"></div>
+    <div class="relative mx-auto max-w-3xl px-4 py-24 sm:py-32 text-center text-white">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4 drop-shadow-lg">Welcome to Thetis Island</h1>
+      <p class="text-lg drop-shadow-md opacity-95">Your gateway to community services, resources and visitor information for our beautiful Gulf Island.</p>
     </div>
+    <p class="relative text-right text-xs text-white/60 px-4 pb-2">Photo by Bev [Lastname]</p>
   </section>
 
   <section class="mx-auto max-w-6xl px-4 py-12">
