@@ -1,12 +1,13 @@
 ---
 title: About TIRRA
-description: Mission, history and membership of the Thetis Island Residents and Ratepayers Association.
-editor_notes: >-
-  VERIFY: Mission & Purpose prose — review for accuracy against TIRRA's actual mandate.
-  VERIFY: Membership — are dues still "modest"? Are listed benefits current?
-  VERIFY: Board structure (President, VP, Secretary, Treasurer, committee chairs) — still correct?
-  VERIFY: History mentions Veronica Shelford by name — is this appropriate and accurate?
-  VERIFY: Documents & Reports — any documents ready to link?
+description: 8 Mission, history and membership of the Thetis Island Residents
+  and Ratepayers Association.
+editor_notes: "VERIFY: Mission & Purpose prose — review for accuracy against
+  TIRRA's actual mandate. VERIFY: Membership — are dues still \"modest\"? Are
+  listed benefits current? VERIFY: Board structure (President, VP, Secretary,
+  Treasurer, committee chairs) — still correct? VERIFY: History mentions
+  Veronica Shelford by name — is this appropriate and accurate? VERIFY:
+  Documents & Reports — any documents ready to link?"
 ---
 
 ## Mission & Purpose
