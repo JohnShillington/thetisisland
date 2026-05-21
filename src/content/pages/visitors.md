@@ -1,16 +1,17 @@
 ---
 title: Visitor Information
-description: Plan your visit to Thetis Island — travel tips, accommodations and recreation.
-editor_notes: >-
-  VERIFY: "roughly 400 full-time residents" — is this still correct?
-  VERIFY: "roughly 10 square kilometres" — confirm.
-  VERIFY: SeaAir Seaplanes — still the operator? Twice daily still accurate? 20-minute flight correct? URL still seairseaplanes.com?
-  VERIFY: Capernwray Harbour — still offering guest accommodation? URL capernwray.ca correct?
-  VERIFY: Cufra Cliffs Cottage — still operating? URL cufracliffs.com correct?
-  VERIFY: Thetis Island Getaway — still operating? URL thetisislandgetaway.com correct?
-  VERIFY: Thetis Island Resorts phone 250-246-3464 — is this number still correct?
-  VERIFY: "no public camping" — still true?
-  VERIFY: "fires are not permitted on beaches" — still current?
+description: 4 Plan your visit to Thetis Island — travel tips, accommodations
+  and recreation.
+editor_notes: 'VERIFY: "roughly 400 full-time residents" — is this still
+  correct? VERIFY: "roughly 10 square kilometres" — confirm. VERIFY: SeaAir
+  Seaplanes — still the operator? Twice daily still accurate? 20-minute flight
+  correct? URL still seairseaplanes.com? VERIFY: Capernwray Harbour — still
+  offering guest accommodation? URL capernwray.ca correct? VERIFY: Cufra Cliffs
+  Cottage — still operating? URL cufracliffs.com correct? VERIFY: Thetis Island
+  Getaway — still operating? URL thetisislandgetaway.com correct? VERIFY: Thetis
+  Island Resorts phone 250-246-3464 — is this number still correct? VERIFY: "no
+  public camping" — still true? VERIFY: "fires are not permitted on beaches" —
+  still current?'
 ---
 
 ## About Thetis Island
