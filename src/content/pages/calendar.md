@@ -1,6 +1,6 @@
 ---
 title: Community Calendar
-description: Combined community calendar for Thetis Island events.
+description: 6 Combined community calendar for Thetis Island events.
 ---
 
 ## Add Your Organization's Calendar
