@@ -5,4 +5,4 @@ nav_order: 7
 show_in_nav: true
 nav_label: Minutes
 ---
-\## 2026 Minutes\n\nMinutes will be posted here after each board meeting.
+##2026\n\nMinutes Minutes will be posted here after each board meeting.
