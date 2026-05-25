@@ -1,7 +1,9 @@
 ---
 title: Emergency Information
 description: Emergency contacts, fire danger levels and preparedness for Thetis Island.
-nav_order: 4
+nav_order: 5
+show_in_nav: true
+nav_label: Emergency
 editor_notes: "VERIFY: CVRD emergency workbook link — currently points to
   cvrd.ca generically. Karl: do you have a direct URL to the workbook PDF?"
 ---

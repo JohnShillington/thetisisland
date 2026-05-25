@@ -1,7 +1,9 @@
 ---
 title: Ferry Information
 description: Ferry schedules, webcams and vessel tracking for Thetis Island.
-nav_order: 2
+nav_order: 90
+show_in_nav: false
+nav_label: Ferry Info
 editor_notes: "VERIFY: VesselFinder link for MV Pune Luxutth (IMO 9029267) — is
   Pune Luxutth still the ferry on this route? Vessels get reassigned. VERIFY:
   Snake schedule times are from Jan 2, 2025 PDF. Confirm they match the current

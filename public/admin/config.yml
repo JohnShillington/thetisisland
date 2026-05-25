@@ -85,12 +85,12 @@ collections:
       - { name: body, label: Full Description, widget: markdown, hint: "Detailed description with hours, location, etc." }
 
   # ──────────────────────────────────────────────
-  # Singleton Pages
+  # Special Pages (custom templates — cannot be created or deleted)
   # ──────────────────────────────────────────────
-  - name: pages
-    label: Pages
-    label_singular: Page
-    folder: src/content/pages
+  - name: special-pages
+    label: "Special Pages"
+    label_singular: "Special Page"
+    folder: src/content/special-pages
     create: false
     delete: false
     slug: "{{slug}}"
@@ -103,7 +103,42 @@ collections:
     fields:
       - { name: title, label: Title, widget: string }
       - { name: description, label: Meta Description, widget: string, required: false, hint: "SEO description shown in search results." }
-      - { name: nav_order, label: Nav Order, widget: number, value_type: int, hint: "Display order in the CMS sidebar and website navigation. Lower numbers appear first." }
+      - { name: nav_order, label: Nav Order, widget: number, value_type: int, default: 50, hint: "Position in the navigation bar. Lower numbers appear first." }
+      - { name: show_in_nav, label: Show in Navigation, widget: boolean, default: true, hint: "Toggle off to hide this page from the navigation bar." }
+      - { name: nav_label, label: Nav Label, widget: string, required: false, hint: "Short label for the navigation bar. If blank, the page title is used." }
+      - name: editor_notes
+        label: "⚠️ Editor Notes (not published)"
+        widget: text
+        required: false
+        hint: "Internal notes for editors — verification flags, questions, reminders. This field is never shown on the public site."
+      - { name: body, label: Content, widget: markdown, required: false, hint: "Page content in Markdown. Some special pages (Services, Community) don't use this field — their content comes from their own collections." }
+
+  # ──────────────────────────────────────────────
+  # Pages (standard pages — create, edit and delete freely)
+  # ──────────────────────────────────────────────
+  - name: pages
+    label: "Pages"
+    label_singular: "Page"
+    folder: src/content/pages
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: md
+    format: yaml-frontmatter
+    sortable_fields:
+      fields: [nav_order, title]
+      default:
+        field: nav_order
+    fields:
+      - name: title
+        label: Title
+        widget: string
+        hint: "Page heading and browser tab title. The URL slug is generated from the filename — avoid names that match existing pages (ferry, emergency, calendar, membership, services, community)."
+      - { name: description, label: Meta Description, widget: string, required: false, hint: "SEO description shown in search results." }
+      - { name: subtitle, label: Subtitle, widget: string, required: false, hint: "Optional line shown below the page heading." }
+      - { name: nav_order, label: Nav Order, widget: number, value_type: int, default: 50, hint: "Position in the navigation bar. Lower numbers appear first. Leave at 50 for pages not in nav." }
+      - { name: show_in_nav, label: Show in Navigation, widget: boolean, default: true, hint: "Toggle off to hide this page from the navigation bar (e.g. for thank-you pages or drafts)." }
+      - { name: nav_label, label: Nav Label, widget: string, required: false, hint: "Short label for the navigation bar. If blank, the page title is used." }
       - name: editor_notes
         label: "⚠️ Editor Notes (not published)"
         widget: text

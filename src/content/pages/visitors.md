@@ -1,7 +1,10 @@
 ---
 title: Visitor Information
 description: Plan your visit to Thetis Island — travel tips, accommodations and recreation.
-nav_order: 3
+subtitle: Plan your trip to Thetis Island with travel tips, accommodation listings and things to do.
+nav_order: 4
+show_in_nav: true
+nav_label: Visitors
 editor_notes: 'VERIFY: "roughly 400 full-time residents" — is this still
   correct? VERIFY: "roughly 10 square kilometres" — confirm. VERIFY: SeaAir
   Seaplanes — still the operator? Twice daily still accurate? 20-minute flight

@@ -1,7 +1,8 @@
 ---
 title: Home
-description: 1 Community services, resources and visitor information for Thetis Island, BC.
+description: Community services, resources and visitor information for Thetis Island, BC.
 nav_order: 1
+show_in_nav: true
 editor_notes: "VERIFY: Home card descriptions (Ferry Info, Our Services, etc.)
   are in the page template, not editable here. The TIRRA summary below should
   match TIRRA's actual mandate."

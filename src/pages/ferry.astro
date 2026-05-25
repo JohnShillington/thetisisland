@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SnakeSchedule from "../components/SnakeSchedule.astro";
 import schedule from "../data/ferry-schedule.yaml";
 
-const page = await getEntry("pages", "ferry");
+const page = await getEntry("special-pages", "ferry");
 const { Content } = await render(page);
 ---
 

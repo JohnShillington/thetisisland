@@ -2,7 +2,7 @@
 import { getEntry, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const page = await getEntry("pages", "calendar");
+const page = await getEntry("special-pages", "calendar");
 const { Content } = await render(page);
 
 // Formspree endpoint for event submissions (separate form from membership)

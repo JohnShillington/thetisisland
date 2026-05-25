@@ -1,7 +1,10 @@
 ---
 title: Contact Us
 description: Contact TIRRA — mailing address, email and key contacts.
-nav_order: 8
+subtitle: "We'd love to hear from you."
+nav_order: 9
+show_in_nav: true
+nav_label: Contact
 editor_notes: "VERIFY: P.O. Box 000 is a placeholder — what is the actual P.O. Box number?"
 ---
 

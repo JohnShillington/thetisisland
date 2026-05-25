@@ -1,15 +1,37 @@
 ---
-const navItems = [
-  { label: "Home", href: "/" },
-  { label: "Our Services", href: "/services" },
-  { label: "Community & Groups", href: "/community" },
-  { label: "Visitors", href: "/visitors" },
-  { label: "Emergency", href: "/emergency" },
-  { label: "Calendar", href: "/calendar" },
-  { label: "Communications", href: "/communications" },
-  { label: "About TIRRA", href: "/about" },
-  { label: "Contact", href: "/contact" },
-] as const;
+import { getCollection } from "astro:content";
+
+// Gather nav items from both page collections
+const specialPages = await getCollection("special-pages");
+const standardPages = await getCollection("pages");
+
+interface NavItem {
+  label: string;
+  href: string;
+  order: number;
+}
+
+const navItems: NavItem[] = [];
+
+for (const page of specialPages) {
+  if (!page.data.show_in_nav) continue;
+  navItems.push({
+    label: page.data.nav_label || page.data.title,
+    href: page.id === "home" ? "/" : `/${page.id}`,
+    order: page.data.nav_order,
+  });
+}
+
+for (const page of standardPages) {
+  if (!page.data.show_in_nav) continue;
+  navItems.push({
+    label: page.data.nav_label || page.data.title,
+    href: `/${page.id}`,
+    order: page.data.nav_order,
+  });
+}
+
+navItems.sort((a, b) => a.order - b.order);
 
 const currentPath = Astro.url.pathname;
 ---

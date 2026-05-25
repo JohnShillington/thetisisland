@@ -25,14 +25,32 @@ const services = defineCollection({
   }),
 });
 
+// Shared schema for nav-related fields used by both page collections
+const navFields = {
+  nav_order: z.number().default(50),
+  show_in_nav: z.boolean().default(true),
+  nav_label: z.string().optional(),
+};
+
+const specialPages = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/special-pages" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    ...navFields,
+    editor_notes: z.string().optional(),
+  }),
+});
+
 const pages = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/pages" }),
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
-    nav_order: z.number().optional(),
+    subtitle: z.string().optional(),
+    ...navFields,
     editor_notes: z.string().optional(),
   }),
 });
 
-export const collections = { organizations, services, pages };
+export const collections = { organizations, services, "special-pages": specialPages, pages };

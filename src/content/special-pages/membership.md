@@ -1,7 +1,8 @@
 ---
 title: Membership
 description: Join the Thetis Island Residents and Ratepayers Association.
-nav_order: 9
+nav_order: 91
+show_in_nav: false
 editor_notes: >-
   VERIFY: "Why Join" prose — confirm that membership dues support the recycle yard, trails and cemetery specifically.
 ---

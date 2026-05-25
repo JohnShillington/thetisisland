@@ -1,7 +1,10 @@
 ---
 title: Community Communications
 description: e-Spokes, Phone Book, Welcome Package and community blog links.
-nav_order: 6
+subtitle: Stay informed and connected on Thetis Island.
+nav_order: 7
+show_in_nav: true
+nav_label: Communications
 editor_notes: 'VERIFY: e-Spokes subscription address espokes@thetisisland.net —
   is this correct? VERIFY: e-Spokes description (moderated bulletin board, no
   spam) — still accurate? VERIFY: Phone Book details ("compiled by volunteers,
