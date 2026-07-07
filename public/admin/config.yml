@@ -1,8 +1,8 @@
 backend:
   name: github
-  repo: RubyBailey/thetisisland
+  repo: JohnShillington/thetisisland
   branch: main
-  base_url: https://thetisisland-auth.unger-karl11.workers.dev
+  base_url: https://thetisisland-auth.john-shillington.workers.dev
 
 media_folder: public/images
 public_folder: /images
